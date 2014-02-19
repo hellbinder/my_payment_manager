@@ -1,5 +1,5 @@
 source 'https://rubygems.org'
-ruby '1.9.3'
+ruby '2.1.0'
 gem 'rails', '4.0.2'
 gem 'sqlite3'
 gem 'sass-rails', '~> 4.0.0'
@@ -21,4 +21,13 @@ group :development do
   gem 'hub', :require=>nil
   gem 'quiet_assets'
   gem 'rails_layout'
+  gem 'zeus'
+end
+
+group :development, :test do
+  gem 'rspec-rails', '~> 3.0.0.beta'
+end
+
+group :test do
+  
 end

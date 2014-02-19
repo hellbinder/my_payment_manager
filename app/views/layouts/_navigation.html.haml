@@ -1,13 +1,20 @@
--# navigation styled for Bootstrap 3.0
-%nav.navbar.navbar-default.navbar-fixed-top
-  .container
-    .navbar-header
-      %button.navbar-toggle{"data-target" => ".navbar-collapse", "data-toggle" => "collapse", :type => "button"}
-        %span.sr-only Toggle navigation
-        %span.icon-bar
-        %span.icon-bar
-        %span.icon-bar
-      = link_to 'Home', root_path, class: 'navbar-brand'
-    .collapse.navbar-collapse
-      %ul.nav.navbar-nav
-        = render 'layouts/navigation_links'
+%ul.sidebar-nav
+  %li.sidebar-brand
+    = link_to "#{current_user.email}", root_path, class: 'navbar-brand'
+  %li
+    = link_to "Users", User
+  %li
+    %a(href='#') Dashboard
+  %li
+    %a(href='#') Overview
+  %li
+    %a(href='#') Events
+  %li
+    %a(href='#') About
+  %li
+    %a(href='#') Services
+  %li
+    %a(href='#') Contact
+  %li
+    = link_to "Sign Out", destroy_user_session_path, method: :delete
+

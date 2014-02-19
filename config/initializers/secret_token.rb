@@ -9,4 +9,4 @@
 
 # Make sure your secret_key_base is kept private
 # if you're sharing your code publicly.
-MyPaymentManager::Application.config.secret_key_base = '78319ef2190ca71227ee9a878b8ee100a5fa9d0299f04ec5ccd3ccdb59e2104490d27fedcfb2fc8b6347f6b8c89134c7e26d69cf91bc7d622802258cb544dc00'
+MyPaymentManager::Application.config.secret_key_base = 'f03f5825a19277f135c47a6457aa090a44d0791414557feb0f015d22c72ebb3ac7fc9ae7b7d3b3201867b523b21423c8a9bf57abb3b6228fd6b444e616bc2373'

@@ -84,3 +84,6 @@ pickle-email-*.html
 
 # Ignore application configuration
 /config/application.yml
+
+#config secret token
+/config/initializer/secret_token.rb

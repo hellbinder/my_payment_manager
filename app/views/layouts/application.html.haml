@@ -8,8 +8,28 @@
     = javascript_include_tag "application", "data-turbolinks-track" => true
     = csrf_meta_tags
   %body
-    %header
-      = render 'layouts/navigation'
-    %main{:role => "main"}
-      = render 'layouts/messages'
-      = yield
+    - if current_user
+      #wrapper
+        #sidebar-wrapper
+          = render 'layouts/navigation'
+        #page-content-wrapper
+          .content-header
+            %h1
+              %a#menu-toggle.btn.btn-default(href='#')
+                %i.icon-reorder 
+              My Payment Manager
+          -# Keep all page content within the page-content inset div! 
+          .page-content.inset
+            = render 'layouts/messages'
+            = yield
+    - else
+      .container
+        .row
+          .col-md-12
+            = render 'layouts/messages'
+            = yield
+:javascript
+  $("#menu-toggle").click(function(e) {
+      e.preventDefault();
+      $("#wrapper").toggleClass("active");
+  });
