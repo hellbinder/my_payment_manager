@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 My Payment Manager
 =========
 
@@ -141,3 +142,9 @@ License
 -------
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+=======
+my_payment_manager
+==================
+
+Simple application to keep track of my monthly payments with their information.
+>>>>>>> f89df24e4a560e135caabb2c035efa1f74a8bfd9
