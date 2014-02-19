@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 My Payment Manager
 =========
 
@@ -133,18 +132,4 @@ If you add functionality to this application, create an alternative
 implementation, or build an application that is similar, please contact
 me and I’ll add a note to the README so that others can find your work.
 
-Credits
--------
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-
-License
--------
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-=======
-my_payment_manager
-==================
-
 Simple application to keep track of my monthly payments with their information.
->>>>>>> f89df24e4a560e135caabb2c035efa1f74a8bfd9
