@@ -14,6 +14,7 @@ gem 'figaro'
 gem 'haml-rails'
 gem 'therubyracer', :platform=>:ruby
 gem 'thin'
+
 group :development do
   gem 'better_errors'
   gem 'binding_of_caller', :platforms=>[:mri_19, :mri_20, :rbx]
@@ -22,6 +23,7 @@ group :development do
   gem 'quiet_assets'
   gem 'rails_layout'
   gem 'zeus'
+  gem 'annotate'
 end
 
 group :development, :test do
@@ -29,5 +31,9 @@ group :development, :test do
 end
 
 group :test do
-  
+  gem "shoulda-matchers"
+  gem 'launchy'
+  gem 'factory_girl_rails'
 end
+
+
