@@ -14,6 +14,7 @@ gem 'figaro'
 gem 'haml-rails'
 gem 'therubyracer', :platform=>:ruby
 gem 'thin'
+gem 'faker'
 
 group :development do
   gem 'better_errors'
@@ -28,12 +29,13 @@ end
 
 group :development, :test do
   gem 'rspec-rails', '~> 3.0.0.beta'
+  gem 'rspec-its', '~> 1.0.0.pre'
+  gem 'factory_girl_rails'
 end
 
 group :test do
   gem "shoulda-matchers"
   gem 'launchy'
-  gem 'factory_girl_rails'
 end
 
 

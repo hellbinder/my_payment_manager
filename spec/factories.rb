@@ -2,11 +2,9 @@ FactoryGirl.define do
   factory :user do
     #create sequence to have unique users
     sequence(:name)  { |n| "Person #{n}" }
-    sequence(:username)  { |n| "username#{n}" }
     sequence(:email) { |n| "person_#{n}@example.com"} 
-    password "foobar"
-    active true
-    password_confirmation "foobar"
+    password "12345678"
+    password_confirmation "12345678"
     factory :admin do
       admin true
     end
@@ -14,5 +12,13 @@ FactoryGirl.define do
       active false
     end
   end
+
+  factory :account do
+    sequence(:name) { |n| "Test Account##{n}" }
   end
+
+  factory :payment do
+    payment_date Date.today
+  end
+
 end
