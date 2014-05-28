@@ -1,0 +1,13 @@
+%h1 Your Accounts
+%table.table.striped
+  %tr
+    %th Name
+    %th Description
+    %th Created At
+    %th Updated At
+  -@accounts.each do |account|
+    %tr
+      %td= link_to(account.name, account_path(account))
+      %td= account.description
+      %td= account.created_at.strftime("%m/%d/%Y")
+      %td= account.updated_at.strftime("%m/%d/%Y")

@@ -38,4 +38,9 @@ RSpec.configure do |config|
   # the seed, which is printed after each run.
   #     --seed 1234
   config.order = "random"
+  config.include Helper
+  # config.include ModelsSpecHelper
+
+  #Show errors for depecrated methods!
+  #config.raise_errors_for_deprecations!
 end

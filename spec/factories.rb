@@ -13,12 +13,15 @@ FactoryGirl.define do
     end
   end
 
-  factory :account do
-    sequence(:name) { |n| "Test Account##{n}" }
+  factory :payment do
+    account_id 1
+    payment_date Date.parse("1/1/2013")
+    is_recurring false
   end
 
-  factory :payment do
-    payment_date Date.today
+  factory :account do
+    sequence(:name) { |n| "Test Account##{n}" }
+    sequence(:description) { |n| "Description for account##{n}" }
   end
 
 end

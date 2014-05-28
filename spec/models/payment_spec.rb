@@ -7,14 +7,14 @@ describe Payment do
 
   subject { @payment }
 
-  it { should respond_to(:account_id) } 
-  it { should respond_to(:payment_date) } 
-  it { should respond_to(:is_recurring) }
+  it { is_expected.to respond_to(:account_id) } 
+  it { is_expected.to respond_to(:payment_date) } 
+  it { is_expected.to respond_to(:is_recurring) }
 
   its(:account) { should eq account } 
 
   describe "account id is nil" do
     before { @payment.account_id = nil }
-    it {should_not be_valid}
+    it { is_expected.not_to be_valid}
   end
 end
