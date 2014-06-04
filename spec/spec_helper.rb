@@ -39,7 +39,8 @@ RSpec.configure do |config|
   #     --seed 1234
   config.order = "random"
   config.include Helper
-  # config.include ModelsSpecHelper
+
+  config.include Capybara::DSL
 
   #Show errors for depecrated methods!
   #config.raise_errors_for_deprecations!

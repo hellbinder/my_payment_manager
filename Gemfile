@@ -17,6 +17,7 @@ gem 'thin'
 gem 'faker'
 gem 'sidekiq'
 gem 'font-awesome-rails'
+gem "validate_url"
 
 group :development do
   gem 'better_errors'

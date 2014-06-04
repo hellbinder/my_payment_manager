@@ -27,6 +27,5 @@ describe Account do
     it "adds a payment to the account" do
       expect(@account).to have(1).payments
     end
-    
   end
 end
