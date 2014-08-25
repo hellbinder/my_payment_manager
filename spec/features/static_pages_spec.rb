@@ -17,7 +17,7 @@ describe "loggin in as a user" do
   it "should have the information on the static pages" do
     visit root_path
     click_link "About"
-    expect(page).to have_content"This web site is a self made payment manager application to keep"
+    expect(page).to have_content "This web site is a self made payment manager application to keep"
     expect(page).to have_title full_title("About Us")
     click_link "Contact"
     expect(page).to have_title full_title("Contact")

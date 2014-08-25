@@ -11,13 +11,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140604054300) do
+ActiveRecord::Schema.define(version: 20140825014848) do
 
   create_table "accounts", force: true do |t|
     t.string   "name"
     t.string   "description"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.text     "homepage"
   end
 
   create_table "credit_cards", force: true do |t|
@@ -37,8 +38,11 @@ ActiveRecord::Schema.define(version: 20140604054300) do
     t.text     "detail"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "credit_card_id"
+    t.integer  "noteable_id"
+    t.string   "noteable_type"
   end
+
+  add_index "notes", ["noteable_id", "noteable_type"], name: "index_notes_on_noteable_id_and_noteable_type"
 
   create_table "payments", force: true do |t|
     t.integer  "account_id"

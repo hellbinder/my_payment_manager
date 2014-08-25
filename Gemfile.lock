@@ -39,6 +39,7 @@ GEM
       debug_inspector (>= 0.0.1)
     bootstrap-sass (3.1.1.0)
       sass (~> 3.2)
+    bootstrap_form (2.1.1)
     builder (3.1.4)
     capybara (2.2.1)
       mime-types (>= 1.16)
@@ -124,6 +125,7 @@ GEM
     rack (1.5.2)
     rack-test (0.6.2)
       rack (>= 1.0)
+    railroady (1.1.2)
     rails (4.0.2)
       actionmailer (= 4.0.2)
       actionpack (= 4.0.2)
@@ -230,6 +232,7 @@ DEPENDENCIES
   better_errors
   binding_of_caller
   bootstrap-sass (>= 3.0.0.0)
+  bootstrap_form
   capybara
   coffee-rails (~> 4.0.0)
   devise
@@ -244,10 +247,11 @@ DEPENDENCIES
   jquery-rails
   launchy
   quiet_assets
+  railroady
   rails (= 4.0.2)
   rails_layout
   rspec-its (~> 1.0.0.pre)
-  rspec-rails (~> 3.0.0.beta)
+  rspec-rails
   sass-rails (~> 4.0.0)
   shoulda-matchers
   sidekiq

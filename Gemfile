@@ -18,6 +18,7 @@ gem 'faker'
 gem 'sidekiq'
 gem 'font-awesome-rails'
 gem "validate_url"
+gem 'bootstrap_form'
 
 group :development do
   gem 'better_errors'
@@ -28,10 +29,11 @@ group :development do
   gem 'rails_layout'
   gem 'zeus'
   gem 'annotate'
+  gem 'railroady'
 end
 
 group :development, :test do
-  gem 'rspec-rails', '~> 3.0.0.beta'
+  gem 'rspec-rails'
   gem 'rspec-its', '~> 1.0.0.pre'
   gem 'factory_girl_rails'
 end

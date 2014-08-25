@@ -1,13 +1,25 @@
 %h1 Your Accounts
-%table.table.striped
+%h3
+  = link_to("New Account", new_account_path)
+%table.table-hover.table.striped
   %tr
     %th Name
     %th Description
+    %th Homepage
     %th Created At
-    %th Updated At
+    %th Updated At 
+    %th &nbsp
+    %th &nbsp
   -@accounts.each do |account|
     %tr
       %td= link_to(account.name, account_path(account))
       %td= account.description
+      %td= link_to(account.homepage, account.homepage)
       %td= account.created_at.strftime("%m/%d/%Y")
       %td= account.updated_at.strftime("%m/%d/%Y")
+      %td
+        =link_to(edit_account_path(account)) do
+          %span.glyphicon.glyphicon-edit{title: "Edit #{account.name}"}
+      %td    
+        =link_to(account_path(account), method: :delete) do
+          %span.glyphicon.glyphicon-remove{title: "Delete #{account.name}"}

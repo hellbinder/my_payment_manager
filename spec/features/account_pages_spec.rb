@@ -37,4 +37,27 @@ describe "Account Pages" do
     end
   end
 
+  describe "create page" do
+    before { visit new_account_path }
+    let(:new_account) { FactoryGirl.build :account }
+    it { is_expected.to have_selector "h1", text: "New Account" }
+
+    it "should save the account with the correct information" do
+      fill_in "account_name", with: new_account.name
+      fill_in "account_description", with: new_account.description
+
+      click_button "Create"
+      expect(page).to have_success_message "Account was successfully created"
+    end
+
+    it "should give and error when the information is incorrect" do
+      fill_in "account_name", with: ""
+      fill_in "account_description", with: new_account.description
+
+      click_button "Create"
+
+      puts page.current_url
+      expect(page).to have_error_message "There was an error creating the account" 
+    end
+  end
 end
