@@ -1,0 +1,18 @@
+%h1 All Credit Cards
+%table.table.table-hover
+  %thead
+    %tr
+      %th Name
+      %th Interest Rate
+      %th Credit Limit
+      %th Homepage
+  %tbody
+  -@credit_cards.each do |cc|
+    %tr
+      %td
+        = link_to(cc.name, credit_card_path(cc))
+      %td= number_to_percentage cc.interest_rate, precision:2
+      %td= number_to_currency cc.credit_limit
+      %td
+        = link_to cc.homepage, cc.homepage
+
