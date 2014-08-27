@@ -16,8 +16,8 @@ FactoryGirl.define do
 
   factory :payment do
     account_id 1
-    payment_date Date.parse("1/1/2013")
-    is_recurring false
+    amount 3
+    sequence(:payment_date) { |n| n.days.ago } 
   end
 
   factory :account do

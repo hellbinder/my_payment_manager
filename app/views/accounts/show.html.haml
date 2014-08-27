@@ -1,16 +1,50 @@
 =content_for :page_title, "#{@account.name} Overview" 
 %col-lg-8
-  %h1= @account.name
-
-  %h3 Payment History
-  %table.table-hover.table.striped
-    %thead
-      %tr
-        %th Date
-        %th Date
-        %th Date
-        %th Date
-    %tbody
-      -@account.payments.each do |payment|
-        %tr
-          %td= payment.payment_date
+  %h4="#{@account.name}"
+  .panel-body
+    %ul.nav.nav-tabs
+      %li.active
+        %a{href: "#details", data: {toggle: "tab"} }
+          Details
+      %li
+        %a{href: "#history", data: {toggle: "tab"} }
+          History
+    .tab-content
+      #details.tab-pane.fade.active.in
+        .row
+          .col-lg-12
+            %h3 Details
+        .row
+          .col-lg-3.col-md-6
+            .panel.panel-primary
+              .panel-heading
+                .row
+                  .col-xs-3
+                    %i.fa.fa-money.fa-5x
+                  .col-xs-9.text-right
+                    .huge=@account.total_paid
+                    %div New Comments!
+              %a{href: '#'}
+                .panel-footer
+                  %span.pull-left View Details
+                  %span.pull-right
+                    %i.fa.fa-arrow-circle-right
+                  .clearfix
+      #history.tab-pane.fade
+        %h4 History
+        -if @account.payments.empty?
+          .alert.alert-warning.alert-dismissable
+            There are no payments recorded for this account.
+        -else
+          %table.table-hover.table.striped
+            %thead
+              %tr
+                %th Date
+                %th Date
+                %th Date
+                %th Date
+            -@account.payments.each do |payment|
+              %tbody
+                %tr
+                  %td= payment.payment_date
+                  

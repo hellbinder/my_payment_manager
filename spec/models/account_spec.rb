@@ -22,10 +22,25 @@ describe Account do
   end
 
 #relations
+  #custom methods
+  it { is_expected.to have_many(:payments).dependent(:destroy) }
+
   describe "payments relation" do
     before { @account.payments.create(payment_date: Date.today) }
     it "adds a payment to the account" do
       expect(@account).to have(1).payments
     end
   end
+
+  #total amount paid scope
+  describe "total amount paid" do
+    before do
+      @account.payments.create(payment_date: 1.day.ago, amount: 20)
+      @account.payments.create(payment_date: 2.days.ago, amount: 30)
+      @account.payments.create(payment_date: 3.days.ago, amount: 50)
+    end
+
+    it { expect(@account.total_payment_amount).to eq 100 }
+  end
+
 end

@@ -9,7 +9,6 @@
     %th Created At
     %th Updated At 
     %th &nbsp
-    %th &nbsp
   -@accounts.each do |account|
     %tr
       %td= link_to(account.name, account_path(account))
@@ -19,7 +18,9 @@
       %td= account.updated_at.strftime("%m/%d/%Y")
       %td
         =link_to(edit_account_path(account)) do
-          %span.glyphicon.glyphicon-edit{title: "Edit #{account.name}"}
-      %td    
+          %button.btn.btn-primary.btn-circle{title: "Edit #{account.name}"}
+            %i.fa.fa-list
+        |
         =link_to(account_path(account), method: :delete) do
-          %span.glyphicon.glyphicon-remove{title: "Delete #{account.name}"}
+          %button.btn.btn-danger.btn-circle{title: "Edit #{account.name}"}
+            %i.fa.fa-times
