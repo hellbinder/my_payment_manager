@@ -41,6 +41,9 @@ describe "Account Pages" do
     before { visit new_account_path }
     let(:new_account) { FactoryGirl.build :account }
     it { is_expected.to have_selector "h1", text: "New Account" }
+    it {is_expected.to have_field("Homepage")}
+    it {is_expected.to have_field("Name")}
+    it {is_expected.to have_field("Description")}
 
     it "should save the account with the correct information" do
       fill_in "account_name", with: new_account.name

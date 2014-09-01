@@ -9,8 +9,8 @@ describe Payment do
 
   it { is_expected.to respond_to(:account_id) } 
   it { is_expected.to respond_to(:payment_date) } 
-  it { is_expected.to respond_to(:is_recurring) }
-
+  it { is_expected.to respond_to(:amount) } 
+  it { is_expected.to belong_to(:account) }
   its(:account) { should eq account } 
 
   describe "account id is nil" do

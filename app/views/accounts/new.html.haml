@@ -1,5 +1,9 @@
 %h1 New Account
 = bootstrap_form_for @account do |f|
+  - unless @account.errors.empty?
+    -@account.errors.full_messages.each do |msg|
+      %p= msg
   = f.text_field :name
   = f.text_field :description
+  = f.text_field  :homepage
   = f.primary "Create", data: { disable_with: 'Creating...' }
