@@ -20,10 +20,25 @@
               .panel-heading
                 .row
                   .col-xs-3
-                    %i.fa.fa-money.fa-5x
+                    %i.fa.fa-money.fa-3x
                   .col-xs-9.text-right
-                    .huge=@account.total_paid
-                    %div New Comments!
+                    %div Total Amount Paid
+                    .h4=number_to_currency(@account.total_payment_amount)
+              %a{href: '#'}
+                .panel-footer
+                  %span.pull-left View Details
+                  %span.pull-right
+                    %i.fa.fa-arrow-circle-right
+                  .clearfix
+          .col-lg-3.col-md-6
+            .panel.panel-danger
+              .panel-heading
+                .row
+                  .col-xs-3
+                    %i.fa.fa-calendar.fa-3x
+                  .col-xs-9.text-right
+                    %div Next Payment
+                    .h5=number_to_currency(@account.total_payment_amount) + " on #{Time.now.strftime('%D') }"
               %a{href: '#'}
                 .panel-footer
                   %span.pull-left View Details
