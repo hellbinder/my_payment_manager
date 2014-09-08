@@ -5,10 +5,10 @@
     / %title= content_for?(:title) ? "My Payment Manager | #{yield(:title)}" : "My Payment Manager"
     %title= content_for?(:title) ? full_title(yield(:title)) : "My Payment Manager"
     %meta{:name => "description", :content => "#{content_for?(:description) ? yield(:description) : 'My Payment Manager'}"}
-    = stylesheet_link_tag "application", media: "all", "data-turbolinks-track" => true
-    = javascript_include_tag "application", "data-turbolinks-track" => true
+    = stylesheet_link_tag "application", media: "all"
+    = javascript_include_tag "application"
     = csrf_meta_tags
-  %body
+  %body{class: "#{controller_name} #{action_name}"}
   - if current_user
     #wrapper
       = render 'layouts/main_nav'

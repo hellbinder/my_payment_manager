@@ -16,7 +16,7 @@ FactoryGirl.define do
 
   factory :payment do
     account_id 1
-    amount 3
+    sequence(:amount) {|n| 10 * n}
     sequence(:payment_date) { |n| n.days.ago } 
   end
 

@@ -10,7 +10,6 @@ gem 'jbuilder', '~> 1.2'
 gem 'bootstrap-sass', '>= 3.0.0.0'
 gem 'devise'
 gem 'figaro'
-gem 'turbolinks'
 gem 'haml-rails'
 gem 'therubyracer', :platform=>:ruby
 gem 'thin'

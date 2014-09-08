@@ -2,7 +2,7 @@
 %col-lg-8
   %h4="#{@account.name}"
   .panel-body
-    %ul.nav.nav-tabs
+    %ul#accountTabs.nav.nav-tabs
       %li.active
         %a{href: "#details", data: {toggle: "tab"} }
           Details
@@ -13,9 +13,9 @@
       #details.tab-pane.fade.active.in
         .row
           .col-lg-12
-            %h3 Details
+            %h3 Summary
         .row
-          .col-lg-3.col-md-6
+          .col-lg-6.col-md-6
             .panel.panel-primary
               .panel-heading
                 .row
@@ -24,13 +24,13 @@
                   .col-xs-9.text-right
                     %div Total Amount Paid
                     .h4=number_to_currency(@account.total_payment_amount)
-              %a{href: '#'}
+              %a#view-history{href: "#"}
                 .panel-footer
                   %span.pull-left View Details
                   %span.pull-right
                     %i.fa.fa-arrow-circle-right
                   .clearfix
-          .col-lg-3.col-md-6
+          .col-lg-6.col-md-6
             .panel.panel-danger
               .panel-heading
                 .row
@@ -38,10 +38,10 @@
                     %i.fa.fa-calendar.fa-3x
                   .col-xs-9.text-right
                     %div Next Payment
-                    .h5=number_to_currency(@account.total_payment_amount) + " on #{Time.now.strftime('%D') }"
+                    .h4=number_to_currency(@account.total_payment_amount) + " on #{Time.now.strftime('%D') }"
               %a{href: '#'}
                 .panel-footer
-                  %span.pull-left View Details
+                  %span.pull-left Make a payment
                   %span.pull-right
                     %i.fa.fa-arrow-circle-right
                   .clearfix
@@ -51,15 +51,14 @@
           .alert.alert-warning.alert-dismissable
             There are no payments recorded for this account.
         -else
-          %table.table-hover.table.striped
+          %table.table.table-hover
             %thead
               %tr
                 %th Date
-                %th Date
-                %th Date
-                %th Date
+                %th Amount
             -@account.payments.each do |payment|
               %tbody
                 %tr
-                  %td= payment.payment_date
+                  %td= payment.payment_date.strftime('%D')
+                  %td= number_to_currency(payment.amount)
                   

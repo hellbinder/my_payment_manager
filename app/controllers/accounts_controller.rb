@@ -36,6 +36,6 @@ end
 
   private
   def account_params
-    params.require(:account).permit(:name, :description)
+    params.require(:account).permit(:name, :description, :homepage)
   end
 end
