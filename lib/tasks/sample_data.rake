@@ -22,7 +22,7 @@ namespace :db do
         Payment.create!(
             account_id: recent_account.id,
             amount: Faker::Number.number(2),
-            payment_date: o.days.ago
+            payment_date: o.months.ago
           )
       end
     end

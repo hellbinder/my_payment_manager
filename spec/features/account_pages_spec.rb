@@ -20,20 +20,19 @@ describe "Account Pages" do
   end
 
   describe "show page" do
-    before(:each) do
+    before do
       @payment = FactoryGirl.create :payment
       @account = FactoryGirl.create :account
       @account.payments << @payment
       visit account_path @account
     end
 
-    it { is_expected.to have_content @account.name}
+    it { is_expected.to have_selector "h4",text: @account.name}
 
     it "should show history of payments" do
-      @account.payments do |payment|
-        expect(page).to have_link account.name, href: payment_path(payment)
-        expect(page).to have_selector "td", text: payment.description
-      end
+      click_link "View Details"
+      expect(page).to have_selector "td", text: @payment.payment_date.strftime("%D")
+      expect(page).to have_selector "td", text: @payment.amount
     end
   end
 
@@ -62,6 +61,16 @@ describe "Account Pages" do
 
       puts page.current_url
       expect(page).to have_error_message "There was an error creating the account" 
+    end
+
+      # PAYMENTS
+
+    describe "payments page from account" do
+      let(:account) { FactoryGirl.create(:account) }
+      it "should have the link to the payments page" do
+        puts new_account_payment_url(account)
+        expect(page).to have_text("Make a payment")˜
+      end
     end
   end
 end

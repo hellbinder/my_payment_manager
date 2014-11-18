@@ -4,7 +4,9 @@ MyPaymentManager::Application.routes.draw do
   root :to => "home#index"
   devise_for :users, :controllers => {:registrations => "registrations"}
   resources :users
-  resources :accounts
+  resources :accounts do
+    resources :payments, only: [:create, :new]
+  end
   resources :credit_cards
 
   match "/about", to: "static_pages#about", via: :get

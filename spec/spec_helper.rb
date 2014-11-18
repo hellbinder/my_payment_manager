@@ -47,4 +47,5 @@ RSpec.configure do |config|
 
   #Show errors for depecrated methods!
   #config.raise_errors_for_deprecations!
+
 end

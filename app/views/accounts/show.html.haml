@@ -39,7 +39,7 @@
                   .col-xs-9.text-right
                     %div Next Payment
                     .h4=number_to_currency(@account.total_payment_amount) + " on #{Time.now.strftime('%D') }"
-              %a{href: '#'}
+              %a{href: new_account_payment_path(@account)}
                 .panel-footer
                   %span.pull-left Make a payment
                   %span.pull-right
