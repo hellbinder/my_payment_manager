@@ -17,7 +17,7 @@ describe "Account Pages" do
         expect(page).to have_selector "td", text: account.description
       end
     end
-  end
+  end*
 
   describe "show page" do
     before do

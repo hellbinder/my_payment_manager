@@ -17,4 +17,8 @@ describe Payment do
     before { @payment.account_id = nil }
     it { is_expected.not_to be_valid}
   end
+  describe "payment_date field" do
+    before { @payment.payment_date = Date.parse("01/01/2005") }
+    it { is_expected.to be_valid }
+  end
 end

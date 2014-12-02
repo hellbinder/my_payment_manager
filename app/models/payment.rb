@@ -3,4 +3,7 @@ class Payment < ActiveRecord::Base
   validates_presence_of :account_id, message: "An account must be associated with this payment"
   belongs_to :account
   #Validate date and number format here.
+  validate do
+      self.errors[:payment_date] << "must be a valid date" unless DateTime.parse(self.payment_date) rescue false
+   end
 end
