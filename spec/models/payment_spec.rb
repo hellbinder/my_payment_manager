@@ -3,7 +3,7 @@ require 'rspec/its'
 
 describe Payment do
   let(:account) { FactoryGirl.create :account }
-  before { @payment = account.payments.create(payment_date: Date.today) }
+  before { @payment = account.payments.create(payment_date: Date.today, amount: 100) }
 
   subject { @payment }
 
@@ -21,4 +21,10 @@ describe Payment do
     before { @payment.payment_date = Date.parse("01/01/2005") }
     it { is_expected.to be_valid }
   end
+  describe "amount is empty" do
+    before { @payment.amount = nil }
+    it { is_expected.not_to be_valid }
+  end
+  
+  it { should belong_to(:account) } 
 end
