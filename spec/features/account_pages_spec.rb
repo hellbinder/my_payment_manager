@@ -17,7 +17,7 @@ describe "Account Pages" do
         expect(page).to have_selector "td", text: account.description
       end
     end
-  end*
+  end
 
   describe "show page" do
     before do
@@ -62,15 +62,17 @@ describe "Account Pages" do
       puts page.current_url
       expect(page).to have_error_message "There was an error creating the account" 
     end
+  end
 
-      # PAYMENTS
-
-    describe "payments page from account" do
-      let(:account) { FactoryGirl.create(:account) }
-      it "should have the link to the payments page" do
-        puts new_account_payment_url(account)
-        expect(page).to have_text("Make a payment")˜
-      end
+  describe "payments page" do
+    let(:account) { FactoryGirl.create :account }
+    before { visit accounts_path }
+    it "should have a link to the payments page from the index" do
+      expect(page).to have_link("Make a payment", new_payment_path)
+    end
+    it "should show the payment page" do
+      click_link "Make a payment"
+      expect(page).to have_selector "h1", text: "New payment"
     end
   end
 end
