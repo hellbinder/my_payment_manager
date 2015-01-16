@@ -25,6 +25,10 @@ describe Payment do
     before { @payment.amount = nil }
     it { is_expected.not_to be_valid }
   end
-  
+  describe "amount is < 0" do
+    before { @payment.amount = 0 }
+    puts @paymennt
+    it { is_expected.not_to be_valid }
+  end
   it { should belong_to(:account) } 
 end

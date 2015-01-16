@@ -32,6 +32,8 @@ group :development do
   gem 'zeus'
   gem 'annotate'
   gem 'railroady'
+  gem 'pry-rails'
+  gem 'pry-byebug'
 end
 
 group :development, :test do

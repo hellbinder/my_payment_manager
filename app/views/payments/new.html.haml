@@ -1,13 +1,11 @@
-- if @account
-  %h1= "New payment for #{@account.name}"
--else
-  %h1= "New payment"
-
+%h1= "New payment"
 = bootstrap_form_for [@ccount,@payment] do |f|
   - unless @payment.errors.empty?
     -@payment.errors.full_messages.each do |msg|
       %p= msg
   = f.collection_select :account_id, Account.order(:name), :id, :name, { include_blank: true, selected: params["account_id"]}
-  = f.text_field :payment_date, :class => 'datepicker', required: true, label: "Payment Date"
+  = f.text_field :payment_date, :class => 'datepicker', required: true, label: "Payment Date", value: "#{ params[:payment][:payment_date] unless params[:payment].nil? }"
   = f.number_field :amount, step: '.01'
   = f.primary "Create", data: { disable_with: 'Creating...' }
+
+=debug(params)

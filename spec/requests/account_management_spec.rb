@@ -10,10 +10,10 @@ describe "Account management" do
     end
   end
 
-  context "account modification" do
+  context "modification" do
     before { sign_in_as_a_valid_user }
     let(:new_account) { FactoryGirl.build :account }
-    it "it creates an account and redirects to the accounts's path" do
+    it "creates an account and redirects to the accounts's path" do
       get new_account_path
       expect(response).to render_template :new
 

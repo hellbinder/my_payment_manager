@@ -7,10 +7,10 @@ describe "Account Pages" do
     sign_in user
   end
 
-  describe "creating a payment from the account page" do
+  context "Create payment" do
     let(:account) { FactoryGirl.create :account, name: "Bestbuy" }
     before { visit new_account_payment_path(account) }
-    it { is_expected.to have_selector "h1", text: "New payment for #{account.name}" }
+    it { is_expected.to have_selector "h1", text: "New payment"}
     it { is_expected.to have_field("Amount") }
     it { is_expected.to have_field("Payment Date") }
 
@@ -25,10 +25,10 @@ describe "Account Pages" do
     end
 
     it "should not save when account is not selected" do
-      fill_in "payment_amount", with: "140"
+      select "", from: "Account"
+      fill_in "payment_amount", with: "140.45"
       fill_in "payment_payment_date", with: "1/5/2014"
       click_button "Create"
-      
       expect(page).to have_error_message "There was an error creating the payment"
     end
   end
