@@ -1,0 +1,17 @@
+%tr{ id: "account_#{account.id}" }
+  %td= link_to(account.name, account_path(account))
+  %td= account.description
+  %td= account.created_at.strftime("%m/%d/%Y")
+  %td= account.updated_at.strftime("%m/%d/%Y")
+  %td
+    =link_to(account.homepage) do
+      %button.btn.btn-warning.btn-circle{title: "Go to homepage"}
+        %i.fa.fa-home
+    |
+    =link_to(edit_account_path(account)) do
+      %button.btn.btn-primary.btn-circle{title: "Edit #{account.name}"}
+        %i.fa.fa-list
+    |
+    =link_to(account_path(account), method: :delete, class: "delete_account", remote: true, data: { confirm: "Are you sure?" }) do
+      %button.btn.btn-danger.btn-circle{title: "Edit #{account.name}"}
+        %i.fa.fa-times

@@ -6,3 +6,7 @@ $('.accounts.show').ready ->
   $('a#view-history').on 'click', (e) ->
     e.preventDefault()
     $('#accountTabs a[href="#history"]').tab('show')
+
+  # Execute datatable.js on history
+  $.fn.dataTable.moment( 'MM/DD/YYYY' )
+  $("#account-history").DataTable()

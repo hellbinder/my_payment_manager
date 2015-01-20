@@ -26,4 +26,5 @@
 //= require sb-admin/raphael-2.1.0.min
 //= require sb-admin/morris
 //= require sb-admin/sb-admin
+//= require datetime-moment
 //= require_tree .

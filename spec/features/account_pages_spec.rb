@@ -19,7 +19,7 @@ describe "Account Pages" do
     end
   end
 
-  describe "show page" do
+  context "show" do
     before do
       @payment = FactoryGirl.create :payment
       @account = FactoryGirl.create :account
@@ -36,7 +36,7 @@ describe "Account Pages" do
     end
   end
 
-  describe "create page" do
+  context "create" do
     before { visit new_account_path }
     let(:new_account) { FactoryGirl.build :account }
     it { is_expected.to have_selector "h1", text: "New Account" }
@@ -59,12 +59,11 @@ describe "Account Pages" do
 
       click_button "Create"
 
-      puts page.current_url
       expect(page).to have_error_message "There was an error creating the account" 
     end
   end
 
-  describe "payments page" do
+  context "payments page" do
     let(:account) { FactoryGirl.create :account }
     before { visit accounts_path }
     it "should have a link to the payments page from the index" do
@@ -75,4 +74,44 @@ describe "Account Pages" do
       expect(page).to have_selector "h1", text: "New payment"
     end
   end
+
+  context "edit/update" do
+    let(:old_account) { FactoryGirl.create :account, name: "Account1", description: "Some description", homepage: "http://www.google.com"}
+    before { visit edit_account_path old_account }
+    it { is_expected.to have_selector "h1", text: "Edit Account1" }
+    it { is_expected.to have_field("Name", with: "Account1" )}
+    it { is_expected.to have_field("Description", with: "Some description" )}
+    it { is_expected.to have_field("Homepage", with: "http://www.google.com" )}
+    it "should save the updated account and go back to the accounts page" do
+      fill_in "Name", with: "Account2"
+      click_button "Update"
+      expect(current_url).to eq(accounts_url)
+      expect(page).to have_success_message "Account was successfully updated"
+      expect(page).to have_selector 'a', text:  "Account2"
+    end
+  end
+
+  context "delete", type: :request do
+    before do
+      5.times do |n|
+        FactoryGirl.create :account
+      end
+      visit accounts_path
+    end
+    it "should be able to delete the account" do
+      expect { delete account_path(Account.first) }.to change(Account, :count).by 1
+    end
+  end
+
+  context "delete from show page" do
+    let(:account) { FactoryGirl.create :account } 
+    before { visit account_path account }
+
+    it "should delete the account and redirect to the index page with the success message" do
+      click_link "Delete"
+      expect(page.current_url).to eq(accounts_url)
+      expect(page).to have_success_message "The account was deleted successfully"
+    end
+  end
+
 end

@@ -19,7 +19,7 @@ describe "Account management" do
 
       #post new
       post "/accounts", account: {name: new_account.name, description: new_account.description }
-      expect(response).to redirect_to (assigns(:account))
+      expect(response).to eq 200
 
       follow_redirect!
       expect(response).to render_template :show
