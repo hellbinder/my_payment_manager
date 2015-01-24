@@ -32,13 +32,3 @@ describe "loggin in as a user" do
   end
 end
 end
-
-
-describe "home" do
-  let(:user) { FactoryGirl.create :user }
-  before { sign_in user}
-  it 'should not have JavaScript errors', :js => true do
-      visit(root_path)
-      expect(page).to have_selector("h1", text: "BOOYA")
-  end
-end

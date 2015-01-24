@@ -7,7 +7,7 @@ describe "Account Pages" do
     sign_in user
   end
 
-  context "Create payment" do
+  describe "Create payment" do
     let(:account) { FactoryGirl.create :account, name: "Bestbuy" }
     before { visit new_account_payment_path(account) }
     it { is_expected.to have_selector "h1", text: "New payment"}
