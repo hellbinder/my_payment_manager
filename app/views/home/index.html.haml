@@ -1,4 +1,11 @@
-%h3 Home
-.bs-callout.bs-callout-info
-  %h4 Dashboard overview
-  %p This will contain a dashboard view of all the payment information including sum for the month, whats left to pay and a history. More like a global view of the accounts for now.
+.jumbotron
+  .container
+    %h1 Welcome!
+    %p This is a simple website created to keep track of payments. This is not meant to replace any other formal application but it will help to keep track of payments since they are entered manually by you!.
+    .bs-callout.bs-callout-info
+      %h4 Dashboard overview
+      %p This will contain a dashboard view of all the payment information including sum for the month, whats left to pay and a history. More like a global view of the accounts for now.
+    =link_to("/login") do
+      %button.btn.btn-default{title: "Sign In"}
+        Sign In
+

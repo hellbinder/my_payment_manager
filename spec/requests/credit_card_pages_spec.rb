@@ -12,8 +12,8 @@ describe "Credit Card Pages" do
 
     it { is_expected.to have_selector "h1", text: "All Credit Cards" }
 
-    describe "should show all the information on the table" do
-      it "should all the credit cards" do
+    context "credit cards table" do
+      it "should show all credit cards" do
         CreditCard.all.each do |cc|
           expect(page).to have_content, cc.name
           expect(page).to have_content cc.homepage

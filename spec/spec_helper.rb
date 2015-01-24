@@ -20,6 +20,7 @@ RSpec.configure do |config|
   
   config.include ValidUserHelper, type: :controller
   config.include ValidUserRequestHelper, type: :request
+  config.include WaitForAjax, type: :feature
   # ## Mock Framework
   #
   # If you prefer to use mocha, flexmock or RR, uncomment the appropriate line:
@@ -56,5 +57,27 @@ RSpec.configure do |config|
 
   # Use the specified formatter
   config.formatter = :documentation #:progress, :html, :textmate, :documentation
+  
+  #Change capybara default js driver
+  Capybara.javascript_driver = :webkit
 
+  #Fixes js issue. UPDATE - It didn't!
+  config.use_transactional_fixtures = false
+
+  config.before(:suite) do
+    DatabaseCleaner.clean_with :truncation
+  end
+
+  config.before(:each) do |example|
+    if example.metadata[:js]
+      DatabaseCleaner.strategy = :truncation
+    else
+      DatabaseCleaner.strategy = :transaction
+    end
+    DatabaseCleaner.start
+  end
+
+  config.after(:each) do
+    DatabaseCleaner.clean
+  end
 end

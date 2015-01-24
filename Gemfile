@@ -43,6 +43,7 @@ group :development, :test do
 end
 
 group :test do
+  gem "capybara-webkit"
   gem "shoulda-matchers"
   gem 'launchy'
   gem 'capybara'

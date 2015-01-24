@@ -91,27 +91,35 @@ describe "Account Pages" do
     end
   end
 
-  context "delete", type: :request do
+  describe "delete account from show page" do
+    let(:account) { FactoryGirl.create :account } 
+    before { visit account_path account }
+
+    it "should delete the account" do
+      expect { click_link "Delete" }.to change(Account, :count).by(-1)
+    end
+
+    it "should redirect to the index page with the success message" do
+      click_link "Delete"
+      expect(page.current_url).to eq(accounts_url)
+      expect(page).to have_success_message "The account was deleted successfully"
+    end
+  end
+end
+
+=begin
+  describe "delete from index page", js:true do
     before do
       5.times do |n|
         FactoryGirl.create :account
       end
       visit accounts_path
     end
+    let(:account_to_delete) { Account.first } 
+
     it "should be able to delete the account" do
-      expect { delete account_path(Account.first) }.to change(Account, :count).by 1
+      page.find("#account_#{account_to_delete.id} td:last").click
+      wait_for_ajax
     end
   end
-
-  context "delete from show page" do
-    let(:account) { FactoryGirl.create :account } 
-    before { visit account_path account }
-
-    it "should delete the account and redirect to the index page with the success message" do
-      click_link "Delete"
-      expect(page.current_url).to eq(accounts_url)
-      expect(page).to have_success_message "The account was deleted successfully"
-    end
-  end
-
-end
+=end
