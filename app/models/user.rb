@@ -4,5 +4,7 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable, :confirmable,
          :recoverable, :rememberable, :trackable, :validatable
   validates_presence_of :name
+  has_many :account_roles, foreign_key: "user_id", class_name: "AccountsUser"
+  has_many :accounts, through: :account_roles
 end
 

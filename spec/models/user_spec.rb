@@ -12,6 +12,9 @@ describe User do
 
   it { should be_valid }
 
+  it { should have_many(:accounts) } 
+  it { should have_many(:account_roles) } 
+
   describe "when name is not present" do
     before { @user.name = " " }
     it { should_not be_valid }

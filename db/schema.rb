@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140827024818) do
+ActiveRecord::Schema.define(version: 20150125005950) do
 
   create_table "accounts", force: true do |t|
     t.string   "name"
@@ -20,6 +20,16 @@ ActiveRecord::Schema.define(version: 20140827024818) do
     t.datetime "updated_at"
     t.text     "homepage"
   end
+
+  create_table "accounts_users", force: true do |t|
+    t.integer  "account_id"
+    t.integer  "user_id"
+    t.string   "role"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "accounts_users", ["account_id", "user_id"], name: "index_accounts_users_on_account_id_and_user_id", unique: true
 
   create_table "credit_cards", force: true do |t|
     t.text     "name"

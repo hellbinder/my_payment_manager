@@ -21,9 +21,18 @@ describe Account do
     expect(FactoryGirl.build :account, homepage: "wwwsfa).to_not be_valid").to_not be_valid
   end
 
-#relations
+  #relations
   #custom methods
   it { is_expected.to have_many(:payments).dependent(:destroy) }
+  it { is_expected.to have_many(:users)} 
+  it { is_expected.to have_many(:user_roles)} 
+
+  #custom authorization methods
+  it { is_expected.to respond_to :moderators }
+  it { is_expected.to respond_to :viewers }
+  it { is_expected.to respond_to :owner }
+    
+
 
   describe "payments relation" do
     before { @account.payments.create(payment_date: Date.today) }

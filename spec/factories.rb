@@ -26,4 +26,9 @@ FactoryGirl.define do
     sequence(:homepage) {|n| "http://www.citi.com/#{n}"}
   end
 
+  factory :accounts_user do
+    account FactoryGirl.create :account
+    user User.first
+    role "admin"
+  end
 end
