@@ -32,4 +32,5 @@ describe "Account Pages" do
       expect(page).to have_error_message "There was an error creating the payment"
     end
   end
+  
 end

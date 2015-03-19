@@ -7,11 +7,12 @@
     =link_to(account.homepage) do
       %button.btn.btn-warning.btn-circle{title: "Go to homepage"}
         %i.fa.fa-home
-    |
-    =link_to(edit_account_path(account)) do
-      %button.btn.btn-primary.btn-circle{title: "Edit #{account.name}"}
-        %i.fa.fa-list
-    |
-    =link_to(account_path(account), method: :delete, class: "delete_account", remote: true, data: { confirm: "Are you sure?" }) do
-      %button.btn.btn-danger.btn-circle{title: "Edit #{account.name}"}
-        %i.fa.fa-times
+    -if current_user.can_modify? account
+      |
+      =link_to(edit_account_path(account)) do
+        %button.btn.btn-primary.btn-circle{title: "Edit #{account.name}"}
+          %i.fa.fa-list
+      |
+      =link_to(account_path(account), method: :delete, class: "delete_account", remote: true, data: { confirm: "Are you sure?" }) do
+        %button.btn.btn-danger.btn-circle{title: "Delete #{account.name}"}
+          %i.fa.fa-times

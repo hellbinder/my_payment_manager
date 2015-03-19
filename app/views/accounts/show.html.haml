@@ -1,7 +1,10 @@
-=content_for :page_title, "#{@account.name} Overview" 
-%col-lg-8
-  %h4="#{@account.name}"
-  = link_to content_tag(:i, "", class: "icon-trash icon-white") + "Delete", @account, method: :delete, class: "btn btn-danger remove_fields", data: { confirm: "Are you sure you want to delete this accont? This action can't be undone." }
+=content_for :page_title, "#{@account.name} Overview"
+.col-lg-12.add-margin
+  %span.h4="#{@account.name}"
+  = link_to content_tag(:i, "", class: "fa fa-trash-o") + " Delete", 
+  @account,method: :delete, 
+  class: "btn btn-danger remove_fields btn-xs", 
+  data: { confirm: "Are you sure you want to delete this accont? This action can't be undone." }
   .panel-body
     %ul#accountTabs.nav.nav-tabs
       %li.active

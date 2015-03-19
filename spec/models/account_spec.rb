@@ -7,7 +7,7 @@ require 'spec_helper'
   # end
 
 describe Account do 
-  before { @account = FactoryGirl.create :account}
+  before { @account = FactoryGirl.create :account }
   it "is invalid with a blank account name" do
     expect(FactoryGirl.build :account, name: "").to_not be_valid
   end
@@ -15,29 +15,47 @@ describe Account do
   it "checks for valid url" do
     expect(FactoryGirl.build :account, homepage: "http://www.citi.com").to be_valid
   end
-  it "is invalid with wrongly typed urls" do |variable|
+  it "is invalid with wrongly typed urls" do
     expect(FactoryGirl.build :account, homepage: "wwwsfa.froo34d.vime").to_not be_valid
-    expect(FactoryGirl.build :account, homepage: "wwwsfa.froo...34d.vime").to_not be_valid
+    expect(FactoryGirl.build :account, homepage: "www.froo...34d.vime").to_not be_valid
     expect(FactoryGirl.build :account, homepage: "wwwsfa).to_not be_valid").to_not be_valid
   end
 
   #relations
-  #custom methods
   it { is_expected.to have_many(:payments).dependent(:destroy) }
-  it { is_expected.to have_many(:users)} 
-  it { is_expected.to have_many(:user_roles)} 
+  it { is_expected.to have_many(:users)}
+  it { is_expected.to have_many(:user_roles).dependent(:destroy) } 
 
-  #custom authorization methods
-  it { is_expected.to respond_to :moderators }
+  #custom methods
+  it { is_expected.to respond_to :members }
   it { is_expected.to respond_to :viewers }
   it { is_expected.to respond_to :owner }
-    
 
+  #custom authorization methods
+  describe "retrieval of owner when creating account" do 
+    let(:user_owner) { FactoryGirl.create :user, name: "user_owner" }
+    before { @account.user_roles.create(user: user_owner, role: "owner") }
+    it { expect(@account.owner.name).to eq "user_owner" }
+  end
 
+  describe "result count from custom methods" do
+    before do
+      5.times do
+        @account.user_roles.create(user: FactoryGirl.create(:user), role: "member")
+      end
+      3.times do
+        @account.user_roles.create(user: FactoryGirl.create(:user), role: "viewer")
+      end
+    end
+      
+      it { expect(@account.members.count).to eq 5 }
+      it { expect(@account.viewers.count).to eq 3 }
+  end
+  
   describe "payments relation" do
     before { @account.payments.create(payment_date: Date.today) }
-    it "adds a payment to the account" do
-      expect(@account).to have(1).payments
+    it "should a payment to the account" do
+      expect(@account).to have(1).payment
     end
   end
 

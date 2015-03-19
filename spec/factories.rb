@@ -29,6 +29,14 @@ FactoryGirl.define do
   factory :accounts_user do
     account FactoryGirl.create :account
     user User.first
-    role "admin"
+    factory :account_owner do 
+      role "owner"
+    end
+    factory :account_member do 
+      role "member"
+    end
+    factory :account_viewer do 
+      role "viewer"
+    end
   end
 end

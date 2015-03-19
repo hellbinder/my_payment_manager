@@ -1,8 +1,9 @@
 class AccountsController < ApplicationController
   before_filter :authenticate_user!
   before_filter :get_account, only: [:show, :edit, :update ]
+
   def index
-    @accounts = Account.all
+    @accounts = current_user.accounts
   end
   
   def show
@@ -17,6 +18,7 @@ class AccountsController < ApplicationController
     
     respond_to do |format|
       if @account.save
+        @account.add_owner(current_user)
         format.html { redirect_to(@account, notice: "Account was successfully created") }
         format.xml { render xml: @account, status: :created, location: @account }
       else

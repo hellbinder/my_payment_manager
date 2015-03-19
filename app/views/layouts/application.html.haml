@@ -8,17 +8,11 @@
     = stylesheet_link_tag "application", media: "all"
     = javascript_include_tag "application"
     = csrf_meta_tags
-  %body{class: "#{controller_name} #{action_name}"}
-  - if current_user
-    #wrapper
-      = render 'layouts/main_nav'
-      #page-wrapper
-        .row
-          .col-lg-12
-            = render 'layouts/messages'
-            = yield
-          / /.col-lg-12
-        / /.row
-      / /#page-wrapper
-  -else
-    =yield
+  %body{ class: "#{controller_name} #{action_name}" }
+  #wrapper
+    = render 'layouts/main_nav'
+    #page-wrapper{:class => ("padded-page-wrapper" if current_user)}
+      .row
+        .col-lg-12
+          = render 'layouts/messages'
+          = yield

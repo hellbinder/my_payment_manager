@@ -7,4 +7,5 @@
       %span.icon-bar
     %a.navbar-brand{href: "index.html"} My Payment Manager
   = render 'layouts/top_nav'
-  = render 'layouts/side_nav'
+  -if current_user
+    = render 'layouts/side_nav'

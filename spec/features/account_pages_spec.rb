@@ -7,15 +7,40 @@ describe "Account Pages" do
 
   describe "index page" do
     before :each do
-      2.times { FactoryGirl.create :account }
+      #owner account
+      @owner_account = FactoryGirl.create :account, name: "Owner Account"
+      @owner_account.user_roles.create(user: user, role: "owner")
+
+      #not being owner
+      other_user = FactoryGirl.create :user
+      @user_member_account = FactoryGirl.create :account, name: "User member account"
+
+      #add users to account roles
+      @user_member_account.user_roles.create(user: other_user, role: "owner")
+      @user_member_account.user_roles.create(user: user, role: "member")
+
+      #other_user account only
+      @other_user_account = FactoryGirl.create :account, name: "Other user account"
+      @other_user_account.user_roles.create(user: other_user, role: "owner")
+
       visit accounts_path
     end
+
     it { is_expected.to have_selector "h1", text: "Your Accounts" }
-    it "should display the accounts in the page" do
-      Account.all.each do |account|
-        expect(page).to have_link account.name, href: account_path(account)
-        expect(page).to have_selector "td", text: account.description
-      end
+
+    it "displays the accounts created by the user and shared by others" do
+      #owner account
+      expect(page).to have_link @owner_account.name, href: account_path(@owner_account)
+      expect(page).to have_selector "td", text: @owner_account.description
+
+      #account shared to owner
+      expect(page).to have_link @user_member_account.name, href: account_path(@user_member_account)
+      expect(page).to have_selector "td", text: @user_member_account.description
+    end
+
+    it "does not display accounts that are not associated with the user" do
+      expect(page).to_not have_link @other_user_account.name, href: account_path(@other_user_account)
+      expect(page).to_not have_selector "td", text: @other_user_account.description
     end
   end
 
@@ -53,14 +78,17 @@ describe "Account Pages" do
       expect(page).to have_success_message "Account was successfully created"
     end
 
-    it "should give and error when the information is incorrect" do
+    it "give an error when the information is incorrect" do
       fill_in "account_name", with: ""
       fill_in "account_description", with: new_account.description
 
       click_button "Create"
 
+      expect(new_account.owner).to eq ""
       expect(page).to have_error_message "There was an error creating the account" 
     end
+
+    it "should have the user who created the account as the owner"
   end
 
   context "payments page" do
