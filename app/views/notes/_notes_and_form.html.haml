@@ -1,0 +1,11 @@
+%ul.list-group#notes
+  = render current_model.notes
+= bootstrap_form_for current_model.notes.new, remote: true do |f|
+  - unless @account.errors.empty?
+    -@account.errors.full_messages.each do |msg|
+      %p= msg
+  = f.text_field :title
+  = f.text_field :detail
+  = f.hidden_field :noteable_type
+  = f.hidden_field :noteable_id
+  = f.primary "Add", data: { disable_with: 'Creating...' }

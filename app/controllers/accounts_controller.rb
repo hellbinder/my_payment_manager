@@ -1,12 +1,14 @@
 class AccountsController < ApplicationController
   before_filter :authenticate_user!
-  before_filter :get_account, only: [:show, :edit, :update ]
+  # before_filter :get_account, only: [:show, :edit, :update ]  DONT LIKE TO DO THIS OFTEN. Can get confusing having to go back up to check.
 
   def index
     @accounts = current_user.accounts
   end
   
   def show
+    get_account
+    # render :unauthorized unless current_user.can_delete? @account
   end
 
   def new
@@ -32,9 +34,11 @@ class AccountsController < ApplicationController
   end
 
   def edit
+    get_account
   end
 
   def update
+    get_account
     # getting account in before_filter
     respond_to do |format|
       if @account.update_attributes(account_params)

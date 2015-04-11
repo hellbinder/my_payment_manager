@@ -15,53 +15,7 @@
           History
     .tab-content
       #details.tab-pane.fade.active.in
-        .row
-          .col-lg-12
-            %h3 Summary
-        .row
-          .col-lg-6.col-md-6
-            .panel.panel-primary
-              .panel-heading
-                .row
-                  .col-xs-3
-                    %i.fa.fa-money.fa-3x
-                  .col-xs-9.text-right
-                    %div Total Amount Paid
-                    .h4=number_to_currency(@account.total_payment_amount)
-              %a#view-history{href: "#"}
-                .panel-footer
-                  %span.pull-left View Details
-                  %span.pull-right
-                    %i.fa.fa-arrow-circle-right
-                  .clearfix
-          .col-lg-6.col-md-6
-            .panel.panel-danger
-              .panel-heading
-                .row
-                  .col-xs-3
-                    %i.fa.fa-calendar.fa-3x
-                  .col-xs-9.text-right
-                    %div Next Payment
-                    .h4=number_to_currency(@account.total_payment_amount) + " on #{Time.now.strftime('%D') }"
-              %a{href: new_account_payment_path(@account)}
-                .panel-footer
-                  %span.pull-left Make a payment
-                  %span.pull-right
-                    %i.fa.fa-arrow-circle-right
-                  .clearfix
+        = render 'account_summary'
       #history.tab-pane.fade
-        %h4 History
-        -if @account.payments.empty?
-          .alert.alert-warning.alert-dismissable
-            There are no payments recorded for this account.
-        -else
-          %table#account-history.table.table-striped.table-bordered.dataTable.no-footer
-            %thead
-              %tr
-                %th Date
-                %th Amount
-            -@account.payments.each do |payment|
-              %tr
-                %td= payment.payment_date.strftime('%D')
-                %td= number_to_currency(payment.amount)
-                  
+        = render 'account_history'
+  = render partial: "notes/notes_and_form", locals: { current_model: @account }

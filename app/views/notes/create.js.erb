@@ -1,0 +1,5 @@
+var note = "<%= escape_javascript(render(@note)) %>";
+var note_id = "<%= @note.id %>";
+$("#notes").append(note);
+$("#note_" + note_id).hide().fadeIn();
+$("#new_note")[0].reset();

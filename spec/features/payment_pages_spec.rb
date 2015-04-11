@@ -9,10 +9,19 @@ describe "Account Pages" do
 
   describe "Create payment" do
     let(:account) { FactoryGirl.create :account, name: "Bestbuy" }
-    before { visit new_account_payment_path(account) }
+    before do
+      # account.user_roles.create(user: user, role:"owner")
+      visit new_account_payment_path(account)
+    end
     it { is_expected.to have_selector "h1", text: "New payment"}
     it { is_expected.to have_field("Amount") }
     it { is_expected.to have_field("Payment Date") }
+
+    it "shows all accounts in the dropdown list that the user has access to make payments" do
+      FactoryGirl.create :account, name: "Dummy Account" #dummy account, not connected to anyone so it shouldn't appear in drop down
+      expect(page).to have_select('Account', with_options: ['Bestbuy'])
+      # expect(page).to_not have_select('Account', :with_options => ['Citibank'])
+    end
 
     it "should save successfully and redirect to account page when posting" do
       select "Bestbuy", from: "Account" #infers a drop down is there with the value

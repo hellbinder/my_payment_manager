@@ -7,6 +7,7 @@ MyPaymentManager::Application.routes.draw do
   resources :accounts do
     resources :payments, only: [:create, :new]
   end
+  resources :notes, only: [:create]
   resources :payments, only: [:create, :new]
   resources :credit_cards
 

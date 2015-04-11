@@ -11,12 +11,20 @@ class User < ActiveRecord::Base
     account.user_roles.where(user: self, role: ["owner", "member"]).exists?
   end
 
+  def can_delete?(account)
+    account.user_roles.where(user: self, role: ["owner"]).exists?
+  end
+
   def owned_accounts
-    accounts.where("accounts_users.role = ?", "owner")
+    user_accounts_with_role "owner"
   end
 
   def member_accounts
-    accounts.where("accounts_users.role = ?", "member")
+    user_accounts_with_role "member"
+  end
+
+  def user_accounts_with_role(role)
+    accounts.where("accounts_users.role = ?", "#{role}")
   end
 
 end

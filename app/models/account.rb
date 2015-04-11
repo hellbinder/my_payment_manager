@@ -4,6 +4,7 @@ class Account < ActiveRecord::Base
   has_many :payments, dependent: :destroy
   has_many :user_roles, dependent: :destroy, foreign_key: "account_id", class_name: "AccountsUser" #alias table
   has_many :users, through: :user_roles #have to use the alias name for this to work.
+  has_many :notes, as: :noteable
 
   #custom filters
   def owner
