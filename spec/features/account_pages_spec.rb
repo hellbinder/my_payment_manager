@@ -19,7 +19,7 @@ describe "Account Pages" do
       expect(page).to have_link @owner_account.name, href: account_path(@owner_account)
       expect(page).to have_selector "td", text: @owner_account.description
 
-      #account shared to owner
+      #account shared by owner
       expect(page).to have_link @user_member_account.name, href: account_path(@user_member_account)
       expect(page).to have_selector "td", text: @user_member_account.description
     end
@@ -30,21 +30,36 @@ describe "Account Pages" do
     end
   end
 
-  context "show" do
-    before do
-      @payment = FactoryGirl.create :payment
-      @account = FactoryGirl.create :account
-      @account.payments << @payment
-      visit account_path @account
+  describe "show" do
+    context "when authorized" do
+      before do
+        @payment = FactoryGirl.create :payment
+        @account = FactoryGirl.create :account
+        @account.add_owner(user)
+        @account.payments << @payment
+        visit account_path @account
+      end
+
+      it { is_expected.to have_selector "span.h4",text: @account.name}
+
+      it "should show history of payments" do
+        click_link "View Details"
+        expect(page).to have_selector "td", text: @payment.payment_date.strftime("%D")
+        expect(page).to have_selector "td", text: @payment.amount
+      end
     end
 
-    it { is_expected.to have_selector "h4",text: @account.name}
-
-    it "should show history of payments" do
-      click_link "View Details"
-      expect(page).to have_selector "td", text: @payment.payment_date.strftime("%D")
-      expect(page).to have_selector "td", text: @payment.amount
+    context "when unauthorized" do
+      before do
+        @account = FactoryGirl.create :account
+        visit account_path @account
+      end
+      it "redirects the user to the accounts page" do
+        expect(current_path).to eq accounts_path
+      end
+      it {is_expected.to have_error_message "You are not authorized to view this account"}
     end
+    
   end
 
   context "create" do
@@ -86,9 +101,12 @@ describe "Account Pages" do
     end
   end
 
-  context "edit/update" do
-    let(:old_account) { FactoryGirl.create :account, name: "Account1", description: "Some description", homepage: "http://www.google.com"}
-    before { visit edit_account_path old_account }
+  describe "edit/update" do 
+    before  do
+      @old_account =  FactoryGirl.create :account, name: "Account1", description: "Some description", homepage: "http://www.google.com"
+      @old_account.add_owner user
+      visit edit_account_path @old_account
+    end
     it { is_expected.to have_selector "h1", text: "Edit Account1" }
     it { is_expected.to have_field("Name", with: "Account1" )}
     it { is_expected.to have_field("Description", with: "Some description" )}
@@ -104,7 +122,10 @@ describe "Account Pages" do
 
   describe "delete account from show page" do
     let(:account) { FactoryGirl.create :account } 
-    before { visit account_path account }
+    before do 
+      account.add_owner user
+      visit account_path account
+    end
 
     it "should delete the account" do
       expect { click_link "Delete" }.to change(Account, :count).by(-1)
@@ -128,14 +149,14 @@ describe "Account Pages" do
     end
 
     describe "user visits account hes a member of" do
-      before { visit account_path @owner_account }
+      before { visit account_path @user_member_account }
       it "should not have the option to delete" do 
         expect(page).to_not have_link "Delete"
       end
     end
 
     describe "user visits an account he can only view" do
-      before { visit account_path @owner_account }
+      before { visit account_path @other_user_account }
       it "should have the button to delete" do 
         expect(page).to_not have_link "Delete"
       end
@@ -148,19 +169,19 @@ private
 def create_account_and_roles
   #owner account
   @owner_account = FactoryGirl.create :account, name: "Owner Account"
-  @owner_account.user_roles.create(user: user, role: "owner")
+  @owner_account.add_owner user
 
   #not being owner
   other_user = FactoryGirl.create :user
   @user_member_account = FactoryGirl.create :account, name: "User member account"
 
   #add users to account roles
-  @user_member_account.user_roles.create(user: other_user, role: "owner")
-  @user_member_account.user_roles.create(user: user, role: "member")
+  @user_member_account.add_owner other_user
+  @user_member_account.add_member user
 
   #other_user account only
   @other_user_account = FactoryGirl.create :account, name: "Other user account"
-  @other_user_account.user_roles.create(user: other_user, role: "owner")
+  @other_user_account.add_owner other_user
 end
 =begin
   describe "delete from index page", js:true do

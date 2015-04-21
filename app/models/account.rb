@@ -29,15 +29,26 @@ class Account < ActiveRecord::Base
   def total_payment_amount
    payments.sum(:amount)
   end
-
-  def add_owner(user)
-    user_roles.create(user: user, role: "owner")
-  end
   
+  def add_owner(user)
+    add_user_to_role(user, "owner")
+  end
+
+  def add_member(user)
+    add_user_to_role(user, "member")
+  end
+
+  def add_viewer(user)
+    add_user_to_role(user, "viewer")
+  end
+
   private
 
   def find_user_by_role(role)
-    users.where("accounts_users.role = ?", role)
+    users.where(accounts_users: { role: role} )
   end
 
+  def add_user_to_role(user, role)
+    user_roles.create(user: user, role: role)
+  end
 end

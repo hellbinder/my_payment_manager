@@ -7,12 +7,20 @@ class User < ActiveRecord::Base
   has_many :account_roles, foreign_key: "user_id", class_name: "AccountsUser"
   has_many :accounts, through: :account_roles
 
+  def can_view?(account)
+    account.user_roles.where(role: ["owner", "member", "viewer"], user: self).exists?
+  end
+
   def can_modify?(account)
-    account.user_roles.where(user: self, role: ["owner", "member"]).exists?
+    account.user_roles.where(role: ["owner", "member"], user: self).exists?
   end
 
   def can_delete?(account)
     account.user_roles.where(user: self, role: ["owner"]).exists?
+  end
+
+  def editable_accounts
+    user_accounts_with_role ["owner","member"]
   end
 
   def owned_accounts
@@ -23,8 +31,12 @@ class User < ActiveRecord::Base
     user_accounts_with_role "member"
   end
 
-  def user_accounts_with_role(role)
-    accounts.where("accounts_users.role = ?", "#{role}")
+  private
+
+  def user_accounts_with_role(roles)
+    #TALK ABOUT THIS IN A BLOG!. filter by intermediate tables!
+    # accounts_users.joins(accounts).where("accounts_users.role = ?", "#{role}")
+    accounts.where(accounts_users: { role: roles})
   end
 
 end

@@ -71,5 +71,5 @@ RSpec.configure do |config|
       example.run
     end
   end
-  
+  Capybara.asset_host = "http://localhost:3000"
 end
