@@ -17,6 +17,7 @@ namespace :db do
       name: accounts[n-1],
       description: "Some descripton for #{accounts[n-1]}",
       homepage: homepages[n-1])
+      recent_account.add_owner(User.first)
       3.times do |o|
         puts "Creating a new payment for #{accounts[n-1]}"
         Payment.create!(

@@ -1,5 +1,16 @@
-var note = "<%= escape_javascript(render(@note)) %>";
-var note_id = "<%= @note.id %>";
-$("#notes").append(note);
-$("#note_" + note_id).hide().fadeIn();
-$("#new_note")[0].reset();
+<% if @result %>
+  var note = "<%= j(render(@note)) %>";
+  var note_id = "<%= @note.id %>";
+  $("#notes").append(note);
+  $("#note_" + note_id).hide().fadeIn();
+  $("#new_note")[0].reset();
+  //Change the note tab count
+  debugger;
+  var notesCountSpan = $("#notes-count");
+  var notesCount = parseInt(notesCountSpan.text())
+  notesCountSpan.text(notesCount + 1)
+<% else %> 
+  var errors = "<%= j(render partial: '/layouts/error_messages', locals: { error_model: @note }) %>";
+  $("#error-div").append(errors);
+<% end %>
+

@@ -41,6 +41,7 @@ describe "Account Pages" do
       end
 
       it { is_expected.to have_selector "span.h4",text: @account.name}
+      it { is_expected.to have_selector "#payments" }
 
       it "should show history of payments" do
         click_link "View Details"

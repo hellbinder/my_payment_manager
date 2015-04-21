@@ -1,5 +1,5 @@
-%ul.list-group#notes
-  = render current_model.notes
+%h4 Notes for #{current_model.name}
+%div#error-div
 = bootstrap_form_for current_model.notes.new, remote: true do |f|
   - unless @account.errors.empty?
     -@account.errors.full_messages.each do |msg|
@@ -9,3 +9,6 @@
   = f.hidden_field :noteable_type
   = f.hidden_field :noteable_id
   = f.primary "Add", data: { disable_with: 'Creating...' }
+
+%ul.list-group#notes
+  = render Note.where(noteable_type: current_model.class) #current_model.notes creates an empty partial (gotta figure it out)

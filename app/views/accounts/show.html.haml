@@ -14,9 +14,15 @@
       %li
         %a{href: "#history", data: {toggle: "tab"} }
           History
+      %li.pull-right
+        %a{ href: "#account-notes", data: {toggle: "tab"} }
+          Notes
+          %span.badge#notes-count= @account.notes.count
     .tab-content
       #details.tab-pane.fade.active.in
         = render 'account_summary'
       #history.tab-pane.fade
         = render 'account_history'
-  = render partial: "notes/notes_and_form", locals: { current_model: @account }
+      #account-notes.tab-pane.fade
+        = render partial: "notes/notes_and_form", locals: { current_model: @account }
+  

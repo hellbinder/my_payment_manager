@@ -3,6 +3,6 @@
 FactoryGirl.define do
   factory :note do
     sequence(:title)  { |n| "Some Title #{n}" }
-    sequence(:details) { |n| "some detail##{n} for I am a test"} 
+    sequence(:detail) { |n| "some detail##{n} for I am a test"} 
   end
 end

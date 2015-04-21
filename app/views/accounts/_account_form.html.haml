@@ -1,7 +1,6 @@
 = bootstrap_form_for @account do |f|
   - unless @account.errors.empty?
-    -@account.errors.full_messages.each do |msg|
-      %p= msg
+    = render partial: "/layouts/error_messages", locals: { error_model: @account }
   = f.text_field :name
   = f.text_field :description
   = f.text_field  :homepage
