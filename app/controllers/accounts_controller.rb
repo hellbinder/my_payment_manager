@@ -8,7 +8,7 @@ class AccountsController < ApplicationController
   
   def show
     get_account
-    authorize
+    authorize_view
     # render :unauthorized unless current_user.can_delete? @account
   end
 
@@ -36,6 +36,7 @@ class AccountsController < ApplicationController
 
   def edit
     get_account
+    authorize_edit
   end
 
   def update
@@ -72,9 +73,16 @@ private
     @account = Account.find(params[:id])
   end
 
-  def authorize
+  def authorize_view
     unless current_user.can_view? @account
       flash[:danger] = "You are not authorized to view this account"
+      redirect_to(accounts_path) 
+    end
+  end
+
+  def authorize_edit
+    unless current_user.can_modify? @account
+      flash[:danger] = "You are not authorized to edit this account"
       redirect_to(accounts_path) 
     end
   end

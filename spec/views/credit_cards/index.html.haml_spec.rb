@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe "credit_cards/index.html.haml" do
+describe "credit_cards/index" do
   subject {page}
   context "with 2 widgets" do
     before(:each) do

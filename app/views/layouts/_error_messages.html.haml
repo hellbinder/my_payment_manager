@@ -1,5 +1,6 @@
+- model_name = model_name || error_model.class
 .alert.alert-danger
-  %h4 Error creating #{indefinite_articlerize error_model.class.to_s.downcase }
+  %h4 Error creating #{indefinite_articlerize model_name.to_s.downcase }
   %ul
   -error_model.errors.full_messages.each do |msg|
     %li= msg

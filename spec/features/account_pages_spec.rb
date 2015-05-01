@@ -1,5 +1,4 @@
 require 'spec_helper'
-
 describe "Account Pages" do
   subject { page }
   let(:user) { FactoryGirl.create :user }
@@ -40,8 +39,9 @@ describe "Account Pages" do
         visit account_path @account
       end
 
-      it { is_expected.to have_selector "span.h4",text: @account.name}
+      it { is_expected.to have_selector "h2",text: @account.name}
       it { is_expected.to have_selector "#payments" }
+      it { is_expected.to have_link "Back", accounts_path }
 
       it "should show history of payments" do
         click_link "View Details"
@@ -103,21 +103,30 @@ describe "Account Pages" do
   end
 
   describe "edit/update" do 
-    before  do
-      @old_account =  FactoryGirl.create :account, name: "Account1", description: "Some description", homepage: "http://www.google.com"
-      @old_account.add_owner user
-      visit edit_account_path @old_account
+    before { @old_account =  FactoryGirl.create :account, name: "Account1", description: "Some description", homepage: "http://www.google.com" }
+    context "when not authorized" do
+      before { visit edit_account_path @old_account }
+      it "redirects to the account page with an unauthorized message" do
+        expect(current_url).to eq(accounts_url)
+        expect(page).to have_error_message "You are not authorized to edit this account"
+      end
     end
-    it { is_expected.to have_selector "h1", text: "Edit Account1" }
-    it { is_expected.to have_field("Name", with: "Account1" )}
-    it { is_expected.to have_field("Description", with: "Some description" )}
-    it { is_expected.to have_field("Homepage", with: "http://www.google.com" )}
-    it "should save the updated account and go back to the accounts page" do
-      fill_in "Name", with: "Account2"
-      click_button "Update"
-      expect(current_url).to eq(accounts_url)
-      expect(page).to have_success_message "Account was successfully updated"
-      expect(page).to have_selector 'a', text:  "Account2"
+    context "when authorized" do      
+      before  do
+        @old_account.add_owner user
+        visit edit_account_path @old_account
+      end
+      it { is_expected.to have_selector "h1", text: "Edit Account1" }
+      it { is_expected.to have_field("Name", with: "Account1" )}
+      it { is_expected.to have_field("Description", with: "Some description" )}
+      it { is_expected.to have_field("Homepage", with: "http://www.google.com" )}
+      it "should save the updated account and go back to the accounts page" do
+        fill_in "Name", with: "Account2"
+        click_button "Update"
+        expect(current_url).to eq(accounts_url)
+        expect(page).to have_success_message "Account was successfully updated"
+        expect(page).to have_selector 'a', text:  "Account2"
+      end
     end
   end
 
@@ -147,6 +156,10 @@ describe "Account Pages" do
       it "should have the button to delete" do 
         expect(page).to have_link "Delete"
       end
+
+       it { is_expected.to have_link "Edit", edit_account_path(@owner_account) }
+       it { is_expected.to have_link "Manage Security", account_security_path(@owner_account) }
+
     end
 
     describe "user visits account hes a member of" do
@@ -154,6 +167,8 @@ describe "Account Pages" do
       it "should not have the option to delete" do 
         expect(page).to_not have_link "Delete"
       end
+       it { is_expected.not_to have_link "Edit", edit_account_path(@owner_account) }
+
     end
 
     describe "user visits an account he can only view" do
@@ -161,10 +176,19 @@ describe "Account Pages" do
       it "should have the button to delete" do 
         expect(page).to_not have_link "Delete"
       end
+       it { is_expected.not_to have_link "Edit", edit_account_path(@owner_account) }
     end
   end
 end
 
+describe "account security management" do
+  before do
+    @account = FactoryGirl.create :account
+    visit account_security_path @account
+  end
+
+  it "should not do anything...delete!"
+end
 private
 
 def create_account_and_roles

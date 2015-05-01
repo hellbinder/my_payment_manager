@@ -92,7 +92,7 @@ Devise.setup do |config|
   # Limiting the stretches to just one in testing will increase the performance of
   # your test suite dramatically. However, it is STRONGLY RECOMMENDED to not use
   # a value less than 10 in other environments.
-  config.stretches = Rails.env.test? ? 1 : 10
+  config.stretches = 1 #Rails.env.test? ? 1 : 10
 
   # Setup a pepper to generate the encrypted password.
   # config.pepper = 'e5a64686dd62dc794e8217c9be3beccab82c595e445613a3d6e73546b0ac8a4691762e453e07c85680f8272ba32273e2861befab2210fc33f061fa739c87db30'

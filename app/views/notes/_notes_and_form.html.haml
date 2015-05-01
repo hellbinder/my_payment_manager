@@ -10,5 +10,7 @@
   = f.hidden_field :noteable_id
   = f.primary "Add", data: { disable_with: 'Creating...' }
 
+%hr
+
 %ul.list-group#notes
-  = render Note.where(noteable_type: current_model.class) #current_model.notes creates an empty partial (gotta figure it out)
+  = render Note.where(noteable_type: current_model.class.to_s) #current_model.notes creates an empty partial (gotta figure it out)

@@ -2,11 +2,13 @@ MyPaymentManager::Application.routes.draw do
   get "credit_cards/index"
   get "accounts/index"
   root :to => "home#index"
-  devise_for :users, :controllers => {:registrations => "registrations"}
+  devise_for :users, controllers: {registrations: "registrations"}
+  resources :accounts_users, only: [:create, :new]
   resources :users
   resources :accounts do
     resources :payments, only: [:create, :new]
   end
+  get "accounts/:id/security" => "accounts_user#index", as: "account_security"
   resources :notes, only: [:create]
   resources :payments, only: [:create, :new]
   resources :credit_cards

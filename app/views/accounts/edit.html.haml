@@ -1,2 +1,14 @@
 %h1= "Edit #{@account.name}"
-= render 'account_form'
+.panel-body
+  %ul#accountTabs.nav.nav-tabs
+    %li.active
+      %a{href: "#main", data: {toggle: "tab"} }
+        Details
+    %li
+      %a{href: "#security", data: {toggle: "tab"} }
+        Security
+  .tab-content
+    #main.tab-pane.fade.active.in
+      =render 'account_form'
+    #security.tab-pane.fade.in
+      = render 'user_roles'

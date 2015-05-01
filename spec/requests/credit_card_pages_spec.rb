@@ -6,8 +6,8 @@ describe "Credit Card Pages" do
   #index
   describe "index" do
     before do
+      5.times { FactoryGirl.create :credit_card }
       visit credit_cards_path
-      25.times { FactoryGirl.create :credit_card }
     end
 
     it { is_expected.to have_selector "h1", text: "All Credit Cards" }
@@ -17,7 +17,7 @@ describe "Credit Card Pages" do
         CreditCard.all.each do |cc|
           expect(page).to have_content, cc.name
           expect(page).to have_content cc.homepage
-          expect(page).to have_content, cc.interest_rate
+          expect(page).to have_content, cc.interest_rate.to_s
         end
       end
     end

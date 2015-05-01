@@ -10,6 +10,7 @@ describe "Account Pages" do
   describe "Create payment" do
     let(:account) { FactoryGirl.create :account, name: "Bestbuy" }
     before do
+      account.add_owner user
       # account.user_roles.create(user: user, role:"owner")
       visit new_account_payment_path(account)
     end
