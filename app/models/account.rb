@@ -45,7 +45,7 @@ class Account < ActiveRecord::Base
   private
 
   def find_user_by_role(role)
-    users.where(accounts_users: { role: role} )
+    user_roles.includes(:user).references(:user).where("role = ?", role)
   end
 
   def add_user_to_role(user, role)

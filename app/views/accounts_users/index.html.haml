@@ -1,0 +1,13 @@
+%h2 Manage security for account #{@account.name}
+
+%h4 Members
+%ul.list-group
+-@account.members.each do |member|
+  %li.list-group-item= member.name
+
+%hr
+
+%h4 Viewers
+%ul.list-group
+-@account.viewers.each do |viewer|
+  %li.list-group-item= viewer.name

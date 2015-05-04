@@ -1,0 +1,8 @@
+%div#error-div
+= bootstrap_form_for(@account.user_roles.new,layout: :inline, remote: true) do |f|
+  - unless @account.errors.empty?
+    = render partial: "/layouts/error_messages", locals: { error_model: nil }
+  =f.collection_select :user_id, User.order(:name),:id,:name, include_blank: true
+  =f.select :role, AccountsUser::ROLES.reject { |item| item == "owner" }.map {|s| [s.capitalize, s]}
+  =f.hidden_field :account_id
+  =f.submit "Add", class: "btn btn-primary"
