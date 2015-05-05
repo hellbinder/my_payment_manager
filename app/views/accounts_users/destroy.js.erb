@@ -1,2 +1,13 @@
-var role_id ="<%= @role.id %>";
-$("#role_" + role_id).remove();
+var role_id = "<%= @role.id %>";
+var role_name = "<%= @role.role.pluralize %>";
+var empty_user_role = "<%= j(render partial: 'accounts_users/empty_roles', locals: { name: @role.role.pluralize }) %>";
+var role_ul = $("ul#" + role_name);
+
+//remove list item
+$("#role_" + role_id).fadeOut(function() {
+  this.remove();
+  //Add empty role list item if there are no other list items available
+  if($("li", role_ul).length == 0){
+    role_ul.append(empty_user_role);
+  }
+});

@@ -1,8 +1,10 @@
 $("#error-div").empty();
 <% if @result %>
   var user_role = "<%= j(render(@user_role)) %>";
-  var user_role_id = "<%= @user_role.id %>";
-  $("#members").append(user_role);
+  var role_name = "<%= @user_role.role.pluralize %>";
+  var role_id = "<%= @user_role.id %>";
+  $("#empty_" + role_name).remove();
+  $("#" + role_name).append(user_role);
 <% else %> 
   var errors = "<%= j(render partial: '/layouts/error_messages', locals: { error_model: @user_role, model_name: 'role' }) %>";
   $("#error-div").append(errors);

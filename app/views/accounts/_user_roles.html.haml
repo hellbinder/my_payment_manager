@@ -3,6 +3,16 @@
   .col-lg-6
     %h3 Members
     %ul.list-group#members
-      = render @account.members
+      -if @account.members.empty?
+        = render partial: 'accounts_users/empty_roles', locals: { name: "members" }
+      -else
+        = render @account.members
+  .col-lg-6
+    %h3 Viewers
+    %ul.list-group#viewers
+      -if @account.viewers.empty?
+        = render partial: 'accounts_users/empty_roles', locals: { name: "viewers" }
+      -else
+        = render @account.viewers
 
 

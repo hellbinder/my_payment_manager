@@ -1,4 +1,6 @@
 %h1= "Edit #{@account.name}"
+= link_to content_tag(:i, "", class: "fa fa-chevron-left") + " Back", @account,
+    class: "btn btn-default remove_fields btn-xs "
 .panel-body
   %ul#accountTabs.nav.nav-tabs
     %li.active
@@ -9,6 +11,6 @@
         Security
   .tab-content
     #main.tab-pane.fade.active.in
-      =render 'account_form'
+      = render 'account_form'
     #security.tab-pane.fade.in
       = render 'user_roles'

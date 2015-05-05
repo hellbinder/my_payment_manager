@@ -12,8 +12,6 @@ class AccountsUsersController < ApplicationController
         format.html { redirect_to @user_role.account, success: "The user was added to the account" }
         format.js
       else
-      puts "THIS IS THE ACCOUNT FAIL PART"
-
         format.html do
           flash[:error] = "Error when creating role"
           redirect_to(edit_account_path(@account))
