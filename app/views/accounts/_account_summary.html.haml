@@ -34,3 +34,7 @@
               %span.pull-right
                 %i.fa.fa-arrow-circle-right
               .clearfix
+.row
+  .col-lg-12
+    =column_chart(@account.payments.group_by_month(:payment_date, format: "%F").sum(:amount), library: { tooltip: { pointFormat: 'Amount: <b>${point.y}</b>' }} )
+          
