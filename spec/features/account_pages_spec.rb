@@ -128,8 +128,8 @@ describe "Account Pages" do
         expect(page).to have_selector 'a', text:  "Account2"
       end
     end
+    it "adds roles correctly with remote on"
   end
-
   describe "delete account from show page" do
     let(:account) { FactoryGirl.create :account } 
     before do 

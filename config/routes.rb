@@ -1,7 +1,7 @@
 MyPaymentManager::Application.routes.draw do
   get "credit_cards/index"
   get "accounts/index"
-  root :to => "home#index"
+  root to: "dashboards#show", as: :dashboard
   devise_for :users, controllers: {registrations: "registrations"}
   resources :accounts_users, only: [:create, :new, :destroy]
   resources :users

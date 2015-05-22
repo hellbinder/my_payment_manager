@@ -30,5 +30,12 @@ describe Payment do
     puts @paymennt
     it { is_expected.not_to be_valid }
   end
-  it { should belong_to(:account) } 
+  it { should belong_to(:account) }
+
+  describe "payment_sum_for_user" do
+    before { @user = FactoryGirl.create :user }
+    it "should sum up the payments correctly" do
+      expect { Payment.payment_sum_for_user(@user).to eq 3 }
+    end
+  end
 end

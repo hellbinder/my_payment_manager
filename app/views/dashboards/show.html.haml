@@ -1,0 +1,12 @@
+.row
+  .col-lg-12
+    %h2 TODO: Payments Due
+    %p This is a placeholder. It will contain all the payments due for the current day. Including past due payments.
+.row
+  .col-lg-12
+    %h2= "Account summary for the month of #{Date::MONTHNAMES[Time.now.month]}"
+    =column_chart(@dashboard.payment_sum_for_user_by_month, library: { tooltip: { pointFormat: 'Amount: <b>${point.y}</b>' }} )
+.row
+  .col-lg-12
+    %h2= "Account summary for the year #{Time.now.year}"
+    =column_chart(@dashboard.payment_sum_for_user_by_year, library: { tooltip: { pointFormat: 'Amount: <b>${point.y}</b>' }} )
