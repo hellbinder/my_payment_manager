@@ -9,7 +9,7 @@ class Account < ActiveRecord::Base
   #custom filters
   def owner
     #user_roles.where(role: "owner").first.user
-    find_user_by_role("owner").first
+    find_user_by_role("owner").first.user
   end
 
   def members

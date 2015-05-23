@@ -5,9 +5,9 @@ describe "Home Pages" do
   let(:user) { FactoryGirl.create :user }
   before { sign_in user }
 
-  describe "index page" do
+  describe "dashboard page" do
     before :each do
-      visit root_path
+      visit dashboard_path
     end
     it "should display the links in the page" do
       expect(page).to have_link "Credit Cards", credit_cards_path

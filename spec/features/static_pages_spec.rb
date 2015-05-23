@@ -15,7 +15,7 @@ describe "loggin in as a user" do
   end
   #visible false apparently new in the latest capybara. This since it cant be seen since it's in header.
   it "should have the information on the static pages" do
-    visit root_path
+    visit dashboard_path
     click_link "About"
     expect(page).to have_content "This web site is a self made payment manager application to keep"
     expect(page).to have_title full_title("About Us")
