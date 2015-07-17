@@ -10,3 +10,11 @@ $('.accounts.show').ready ->
   # Execute datatable.js on history
   $.fn.dataTable.moment( 'MM/DD/YYYY' )
   $("#account-history").DataTable()
+
+# Set highchart options
+  Highcharts.setOptions({
+        lang: {
+            thousandsSep: ',',
+            decimalPoint: '.'
+        }
+    })

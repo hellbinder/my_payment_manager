@@ -25,6 +25,8 @@ gem 'groupdate'
 gem "chartkick"
 gem 'hightop'
 gem 'active_median'
+gem 'ice_cube'
+gem 'recurring_select'
 
 group :development do
   gem 'better_errors'

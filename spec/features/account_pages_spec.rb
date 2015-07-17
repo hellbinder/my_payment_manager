@@ -1,4 +1,7 @@
 require 'spec_helper'
+include NotesHelper
+# require 'support/shared_example_for_notes'
+
 describe "Account Pages" do
   subject { page }
   let(:user) { FactoryGirl.create :user }
@@ -48,6 +51,15 @@ describe "Account Pages" do
         expect(page).to have_selector "td", text: @payment.payment_date.strftime("%D")
         expect(page).to have_selector "td", text: @payment.amount
       end
+
+      describe "recurring account" do
+        before do
+          @account = FactoryGirl.create :recurring_account
+          @account.add_owner(user)
+          visit account_path @account
+        end
+        it { is_expected.to have_text "This account has automatic payment creation set up"}
+      end
     end
 
     context "when unauthorized" do
@@ -70,6 +82,8 @@ describe "Account Pages" do
     it {is_expected.to have_field("Homepage")}
     it {is_expected.to have_field("Name")}
     it {is_expected.to have_field("Description")}
+    it { is_expected.to have_select("Schedule", text: "- not recurring -" )}
+
 
     it "should save the account with the correct information" do
       fill_in "account_name", with: new_account.name
@@ -103,11 +117,15 @@ describe "Account Pages" do
   end
 
   describe "edit/update" do 
-    before { @old_account =  FactoryGirl.create :account, name: "Account1", description: "Some description", homepage: "http://www.google.com" }
+    before { @old_account =  FactoryGirl.create :account, name: "Account1",
+     description: "Some description",
+     homepage: "http://www.google.com",
+     schedule: IceCube::Rule.monthly.day_of_month(1).to_hash
+     }
     context "when not authorized" do
       before { visit edit_account_path @old_account }
       it "redirects to the account page with an unauthorized message" do
-        expect(current_url).to eq(accounts_url)
+        expect(current_path).to eq(accounts_path)
         expect(page).to have_error_message "You are not authorized to edit this account"
       end
     end
@@ -120,16 +138,17 @@ describe "Account Pages" do
       it { is_expected.to have_field("Name", with: "Account1" )}
       it { is_expected.to have_field("Description", with: "Some description" )}
       it { is_expected.to have_field("Homepage", with: "http://www.google.com" )}
-      it "should save the updated account and go back to the accounts page" do
+      it { is_expected.to have_select("Schedule", text: "Monthly on the 1st day of the month*" )}
+      it "should save the updated account and go back to the account page" do
         fill_in "Name", with: "Account2"
         click_button "Update"
-        expect(current_url).to eq(accounts_url)
+        expect(current_path).to eq(account_path @old_account)
         expect(page).to have_success_message "Account was successfully updated"
-        expect(page).to have_selector 'a', text:  "Account2"
+        expect(page).to have_selector 'h2', text:  "Account2"
       end
     end
-    it "adds roles correctly with remote on"
   end
+
   describe "delete account from show page" do
     let(:account) { FactoryGirl.create :account } 
     before do 
@@ -143,7 +162,7 @@ describe "Account Pages" do
 
     it "should redirect to the index page with the success message" do
       click_link "Delete"
-      expect(page.current_url).to eq(accounts_url)
+      expect(page.current_path).to eq(accounts_path)
       expect(page).to have_success_message "The account was deleted successfully"
     end
   end
@@ -162,7 +181,7 @@ describe "Account Pages" do
 
     end
 
-    describe "user visits account hes a member of" do
+    describe "user visits account he's a member of" do
       before { visit account_path @user_member_account }
       it "should not have the option to delete" do 
         expect(page).to_not have_link "Delete"
@@ -173,10 +192,33 @@ describe "Account Pages" do
 
     describe "user visits an account he can only view" do
       before { visit account_path @other_user_account }
-      it "should have the button to delete" do 
+      it "should not have the option to delete" do 
         expect(page).to_not have_link "Delete"
       end
        it { is_expected.not_to have_link "Edit", edit_account_path(@owner_account) }
+    end
+
+    describe "edit account authorization", js: true do
+      before { visit edit_account_path @owner_account }
+
+      it { is_expected.to have_text "User" }
+    end
+  end
+
+  # POLYMORPHIC ASSOCIATION
+  describe "noteable association" do
+    before do
+      @account = FactoryGirl.create :account
+      @account.add_member user
+    end
+    describe "a noteable model" do
+      #because it;s without the it clause, it will run everytime. 
+      #with the it clause it will cause issue because there is a nested describe inside
+      #which will cause it to have an error
+      # test_notes do
+      #   let(:model) { @account } 
+      # end
+      it "works with notes as js"
     end
   end
 end
@@ -189,7 +231,13 @@ describe "account security management" do
 
   it "should not do anything...delete!"
 end
+
+
 private
+
+def poop
+  puts "THIS IS ALL WEIRD"
+end
 
 def create_account_and_roles
   #owner account

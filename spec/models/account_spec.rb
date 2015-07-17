@@ -54,7 +54,7 @@ describe Account do
   
   describe "payments relation" do
     before { @account.payments.create(payment_date: Date.today) }
-    it "should a payment to the account" do
+    it "has a payement for the account" do
       expect(@account).to have(1).payment
     end
   end

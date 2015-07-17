@@ -24,6 +24,9 @@ FactoryGirl.define do
     sequence(:name) { |n| "Test Account##{n}" }
     sequence(:description) { |n| "Description for account##{n}" }
     sequence(:homepage) {|n| "http://www.citi.com/#{n}"}
+    factory :recurring_account do
+      schedule IceCube::Rule.monthly.day_of_month([1,15]).to_hash
+    end
   end
 
   factory :accounts_user do

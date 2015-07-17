@@ -11,7 +11,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150125005950) do
+ActiveRecord::Schema.define(version: 20150716194022) do
+
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
 
   create_table "accounts", force: true do |t|
     t.string   "name"
@@ -19,6 +22,7 @@ ActiveRecord::Schema.define(version: 20150125005950) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.text     "homepage"
+    t.text     "schedule"
   end
 
   create_table "accounts_users", force: true do |t|
@@ -29,7 +33,7 @@ ActiveRecord::Schema.define(version: 20150125005950) do
     t.datetime "updated_at"
   end
 
-  add_index "accounts_users", ["account_id", "user_id"], name: "index_accounts_users_on_account_id_and_user_id", unique: true
+  add_index "accounts_users", ["account_id", "user_id"], name: "index_accounts_users_on_account_id_and_user_id", unique: true, using: :btree
 
   create_table "credit_cards", force: true do |t|
     t.text     "name"
@@ -52,7 +56,7 @@ ActiveRecord::Schema.define(version: 20150125005950) do
     t.string   "noteable_type"
   end
 
-  add_index "notes", ["noteable_id", "noteable_type"], name: "index_notes_on_noteable_id_and_noteable_type"
+  add_index "notes", ["noteable_id", "noteable_type"], name: "index_notes_on_noteable_id_and_noteable_type", using: :btree
 
   create_table "payments", force: true do |t|
     t.integer  "account_id"
@@ -83,7 +87,7 @@ ActiveRecord::Schema.define(version: 20150125005950) do
     t.string   "unconfirmed_email"
   end
 
-  add_index "users", ["email"], name: "index_users_on_email", unique: true
-  add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+  add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
+  add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
 end

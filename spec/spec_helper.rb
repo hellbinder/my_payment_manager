@@ -23,6 +23,7 @@ RSpec.configure do |config|
   config.include WaitForAjax, type: :feature
   config.include Devise::TestHelpers, :type => :controller
   config.include Devise::TestHelpers, :type => :view
+  config.include Rails.application.routes.url_helpers
   # ## Mock Framework
   #
   # If you prefer to use mocha, flexmock or RR, uncomment the appropriate line:
@@ -63,24 +64,13 @@ RSpec.configure do |config|
   #Change capybara default js driver
   Capybara.javascript_driver = :webkit
 
-  config.before(:suite) do
-    DatabaseCleaner.clean_with(:truncation)
+  #Set chrome as the default browser when running js tests
+  Capybara.register_driver :chrome do |app|
+    Capybara::Selenium::Driver.new(app, :browser => :chrome)
   end
+  
+  Capybara.javascript_driver = :chrome
+  #end rspec chrome config
 
-  config.before(:each) do
-    DatabaseCleaner.strategy = :transaction
-  end
-
-  config.before(:each, :js => true) do
-    DatabaseCleaner.strategy = :truncation
-  end
-
-  config.before(:each) do
-    DatabaseCleaner.start
-  end
-
-  config.after(:each) do
-    DatabaseCleaner.clean
-  end
   Capybara.asset_host = "http://localhost:3000"
 end

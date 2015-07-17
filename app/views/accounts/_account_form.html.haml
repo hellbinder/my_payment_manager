@@ -4,6 +4,12 @@
   = f.text_field :name
   = f.text_field :description
   = f.text_field  :homepage
+  = f.label :schedule, "Recurring Schedule"
+  %br/
+  = f.select_recurring :schedule,
+      [IceCube::Rule.monthly.day_of_month(1),
+      IceCube::Rule.monthly.day_of_month([1,15])],
+      allow_blank: true
   -if @account.new_record?
     = f.primary "Create", data: { disable_with: 'Creating...' }
   -else

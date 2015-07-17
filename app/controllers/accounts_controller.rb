@@ -44,7 +44,7 @@ class AccountsController < ApplicationController
     # getting account in before_filter
     respond_to do |format|
       if @account.update_attributes(account_params)
-        format.html { redirect_to(Account, notice: "Account was successfully updated") }
+        format.html { redirect_to(account_path(@account), notice: "Account was successfully updated") }
         format.xml { render xml: @account, status: :updated, location: Account }
       else
         format.html { 
@@ -66,7 +66,7 @@ class AccountsController < ApplicationController
 
 private
   def account_params
-    params.require(:account).permit(:name, :description, :homepage)
+    params.require(:account).permit(:name, :description, :homepage, :schedule)
   end
 
   def get_account
