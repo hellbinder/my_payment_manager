@@ -18,6 +18,9 @@ FactoryGirl.define do
     account_id 1
     sequence(:amount) {|n| 10 * n}
     sequence(:payment_date) { |n| n.days.ago } 
+    factory :paid_payment do
+      paid true
+    end
   end
 
   factory :account do
@@ -26,6 +29,7 @@ FactoryGirl.define do
     sequence(:homepage) {|n| "http://www.citi.com/#{n}"}
     factory :recurring_account do
       schedule IceCube::Rule.monthly.day_of_month([1,15]).to_hash
+      payment_amount 450
     end
   end
 

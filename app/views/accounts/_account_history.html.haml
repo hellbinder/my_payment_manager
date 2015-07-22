@@ -9,7 +9,7 @@
         %tr
           %th Date
           %th Amount
-      -@account.payments.each do |payment|
+      -@account.paid_payments.each do |payment|
         %tr
           %td= payment.payment_date.strftime('%D')
           %td= number_to_currency(payment.amount)

@@ -14,6 +14,7 @@ class PaymentsController < ApplicationController
     new_payment_params = payment_params
     new_payment_params[:payment_date] = Date.strptime(new_payment_params[:payment_date], "%m/%d/%Y").strftime("%Y-%m-%d")
     @payment = Payment.new(new_payment_params)
+    @payment.paid = true
     respond_to do |format|
       if @payment.save
         format.html { redirect_to(account_path(params[:payment][:account_id]), notice: "Payment was successfully created") }

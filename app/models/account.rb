@@ -71,6 +71,10 @@ class Account < ActiveRecord::Base
     end
   end
 
+  def paid_payments
+    payments.where( paid: true )
+  end
+
   private
 
   def find_user_by_role(role)

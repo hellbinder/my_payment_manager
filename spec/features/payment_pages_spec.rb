@@ -24,17 +24,19 @@ describe "Account Pages" do
       # expect(page).to_not have_select('Account', :with_options => ['Citibank'])
     end
 
-    it "should save successfully and redirect to account page when posting" do
+    it "saves successfully and redirect to account page when posting" do
       select "Bestbuy", from: "Account" #infers a drop down is there with the value
       fill_in "payment_amount", with: "140"
-      fill_in "payment_payment_date", with: "1/5/2014"
+      fill_in "payment_payment_date", with: "1/12/2014"
       click_button "Create"
-      
       expect(page).to have_selector "h4", text: "#{account.name}"
       expect(page).to have_success_message "Payment was successfully created"
+
+      expect(page).to have_selector "td", text: "01/12/14"
+      expect(page).to have_selector "td", text: "140"
     end
 
-    it "should not save when account is not selected" do
+    it "does not save when account is not selected" do
       select "", from: "Account"
       fill_in "payment_amount", with: "140.45"
       fill_in "payment_payment_date", with: "1/5/2014"

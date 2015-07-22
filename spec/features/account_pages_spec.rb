@@ -36,8 +36,10 @@ describe "Account Pages" do
     context "when authorized" do
       before do
         @payment = FactoryGirl.create :payment
+        @paid_payment = FactoryGirl.create :paid_payment
         @account = FactoryGirl.create :account
         @account.add_owner(user)
+        @account.payments << @paid_payment
         @account.payments << @payment
         visit account_path @account
       end
@@ -46,19 +48,13 @@ describe "Account Pages" do
       it { is_expected.to have_selector "#payments" }
       it { is_expected.to have_link "Back", accounts_path }
 
-      it "should show history of payments" do
+      it "only shows history of paid payments" do
         click_link "View Details"
-        expect(page).to have_selector "td", text: @payment.payment_date.strftime("%D")
-        expect(page).to have_selector "td", text: @payment.amount
-      end
-
-      describe "recurring account" do
-        before do
-          @account = FactoryGirl.create :recurring_account
-          @account.add_owner(user)
-          visit account_path @account
-        end
-        it { is_expected.to have_text "This account has automatic payment creation set up"}
+        expect(page).to have_selector "td", text: @paid_payment.payment_date.strftime("%D")
+        expect(page).to have_selector "td", text: @paid_payment.amount
+        #Unpaid should not show
+        expect(page).to_not have_selector "td", text: @payment.payment_date.strftime("%D")
+        expect(page).to_not have_selector "td", text: @payment.amount
       end
     end
 
@@ -73,6 +69,19 @@ describe "Account Pages" do
       it {is_expected.to have_error_message "You are not authorized to view this account"}
     end
     
+    context "having recurring payment" do
+      before do
+        new_time = Time.local(2015, 1, 13, 12, 0, 0)
+        Timecop.freeze(new_time)
+        @recurring_account = FactoryGirl.create :recurring_account
+        @recurring_account.add_owner(user)
+        visit account_path @recurring_account
+      end
+      it { is_expected.to have_text "This account has automatic payment creation set up" }
+      it "shows 1/15/2015 as the next payment with $450 when current date is 01/13/2015" do
+        expect(page).to have_css "div.h4", text: "$450.00 on 01/15/2015"
+      end
+    end
   end
 
   context "create" do
@@ -120,7 +129,8 @@ describe "Account Pages" do
     before { @old_account =  FactoryGirl.create :account, name: "Account1",
      description: "Some description",
      homepage: "http://www.google.com",
-     schedule: IceCube::Rule.monthly.day_of_month(1).to_hash
+     schedule: IceCube::Rule.monthly.day_of_month(1).to_hash,
+     payment_amount: 450
      }
     context "when not authorized" do
       before { visit edit_account_path @old_account }
@@ -138,6 +148,7 @@ describe "Account Pages" do
       it { is_expected.to have_field("Name", with: "Account1" )}
       it { is_expected.to have_field("Description", with: "Some description" )}
       it { is_expected.to have_field("Homepage", with: "http://www.google.com" )}
+      it { is_expected.to have_field("Payment Amount", with: "450" )}
       it { is_expected.to have_select("Schedule", text: "Monthly on the 1st day of the month*" )}
       it "should save the updated account and go back to the account page" do
         fill_in "Name", with: "Account2"
