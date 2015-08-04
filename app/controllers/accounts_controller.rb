@@ -26,8 +26,7 @@ class AccountsController < ApplicationController
         format.xml { render xml: @account, status: :created, location: @account }
       else
         format.html { 
-          flash[:error] = "There was an error creating the account"
-          render action: "new"
+          render 'new'
         }
         format.xml { render xml: @account.errors, status: :unprocessable_entity }
       end
@@ -48,8 +47,9 @@ class AccountsController < ApplicationController
         format.xml { render xml: @account, status: :updated, location: Account }
       else
         format.html { 
-          flash[:error] = "There was an error updating the account"
-          render action: "edit"
+          render 'edit'
+          puts "THE ACCOUNT IS #{@account}"
+
         }
         format.xml { render xml: @account.errors, status: :unprocessable_entity }
       end

@@ -18,4 +18,8 @@ module ApplicationHelper
   def indefinite_articlerize(params_word)
     %w(a e i o u).include?(params_word[0].downcase) ? "an #{params_word}" : "a #{params_word}"
   end
+
+  def error_messages_for(model)
+    render partial: "/layouts/error_messages", locals: { error_model: model }
+  end
 end

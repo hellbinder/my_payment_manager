@@ -210,8 +210,11 @@ describe "Account Pages" do
     end
 
     describe "edit account authorization", js: true do
-      before { visit edit_account_path @owner_account }
-
+      #TODO: Finish testing authorization here
+      before do
+        visit edit_account_path @owner_account
+        find("li a[href='#security']").click
+      end
       it { is_expected.to have_text "User" }
     end
   end
@@ -245,10 +248,6 @@ end
 
 
 private
-
-def poop
-  puts "THIS IS ALL WEIRD"
-end
 
 def create_account_and_roles
   #owner account

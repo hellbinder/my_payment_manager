@@ -27,4 +27,5 @@
 //= require sb-admin/morris
 //= require sb-admin/sb-admin
 //= require datetime-moment
+//= require recurring_select
 //= require_tree .

@@ -11,10 +11,8 @@ $('.accounts.show').ready ->
   $.fn.dataTable.moment( 'MM/DD/YYYY' )
   $("#account-history").DataTable()
 
-# Set highchart options
-  Highcharts.setOptions({
-        lang: {
-            thousandsSep: ',',
-            decimalPoint: '.'
-        }
-    })
+
+$('.accounts.new, .accounts.edit').ready ->
+  $('#account_schedule').on('change', ->
+    is_not_recurring  = $('#account_schedule')[0].selectedIndex == 0
+    $('#account_payment_amount').prop('disabled', is_not_recurring))

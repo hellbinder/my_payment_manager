@@ -3,7 +3,7 @@
   .col-lg-12
     %h3 Summary
     -unless @account.schedule.empty?
-      .alert.bg-info Note: This account has automatic payment creation set up ( #{@account.converted_schedule.to_s} )
+      .alert.bg-info Note: This account has automatic payment creatio n set up ( #{@account.converted_schedule.to_s} )
   .row
     %div{ class: ( can_modify_account ? "col-lg-6 col-md-6" : "col-lg-12 col-md-12" )}
       .panel.panel-primary#summary
@@ -41,7 +41,6 @@
   .col-lg-12
     =column_chart(@account.payments.group_by_month(:payment_date, format: "%F").sum(:amount),
     library: { tooltip: { pointFormat: 'Amount: <b>${point.y:,.2f}</b>'},
-    lang: { thousandsSep: ','},
     title: { text: 'Monthly Summary',
              align: 'left'  } })
           
