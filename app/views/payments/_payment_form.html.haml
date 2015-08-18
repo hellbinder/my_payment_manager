@@ -1,0 +1,6 @@
+= bootstrap_form_for [@account,@payment] do |f|
+  = error_messages_for @payment
+  = f.collection_select :account_id, current_user.editable_accounts, :id, :name, { include_blank: true, selected: params["account_id"]}
+  = f.text_field :payment_date, :class => 'datepicker', required: true, label: "Payment Date", value: "#{ @payment.payment_date.strftime('%m/%d/%Y') unless params[:id].nil? }"
+  = f.number_field :amount, step: 'any', prepend: "$"
+  = f.primary @payment.new_record? ? "Create" : "Update", data: { disable_with: 'Saving...' }

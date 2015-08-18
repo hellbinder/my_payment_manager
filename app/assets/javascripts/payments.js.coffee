@@ -2,7 +2,7 @@
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://coffeescript.org/ 
 $(document).ready ->
-  $('.payments.new, .payments.create').ready ->
+  $('.payments.new, .payments.create, .payments.edit').ready ->
     console.log "this is working"
     $(".datepicker").datetimepicker 
       pickTime: false,

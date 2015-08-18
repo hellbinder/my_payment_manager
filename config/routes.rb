@@ -6,7 +6,7 @@ MyPaymentManager::Application.routes.draw do
   resources :accounts_users, only: [:create, :new, :destroy]
   resources :users
   resources :accounts do
-    resources :payments, only: [:create, :new]
+    resources :payments, only: [:create, :new, :edit, :update]
   end
   get "accounts/:id/security" => "accounts_user#index", as: "account_security"
   resources :notes, only: [:create]
