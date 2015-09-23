@@ -53,21 +53,37 @@ describe Account do
   end
   
   describe "payments relation" do
-    before { @account.payments.create(payment_date: Date.today) }
+    before { @account.payments.create(payment_date: Date.today, amount: 10, paid: false) }
     it "has a payement for the account" do
-      expect(@account).to have(1).payment
+      expect(@account.payments.count).to eq(1)
     end
   end
 
-  #total amount paid scope
-  describe "total amount paid" do
+  #total amountx paid scope
+  describe "amount paid methods" do
     before do
-      @account.payments.create(payment_date: 1.day.ago, amount: 20)
-      @account.payments.create(payment_date: 2.days.ago, amount: 30)
-      @account.payments.create(payment_date: 3.days.ago, amount: 50)
+      new_time = Time.local(2015, 1, 13, 12, 0, 0)
+      Timecop.freeze(new_time)
+      create_payments
     end
+    after do
+      Timecop.return
+    end
+    it { expect(@account.total_payment_amount).to eq 200 }
+    it { expect(@account.total_payment_amount_by_month).to eq 150 }
 
-    it { expect(@account.total_payment_amount).to eq 100 }
+    context "unpaid payment" do
+      before { @account.payments.create(payment_date: 1.day.ago, amount: 20, paid: false) }
+      it { expect(@account.total_payment_amount_by_month).to eq 150 }
+    end
   end
 
+private
+  def create_payments
+    @account.payments.create(payment_date: 1.day.ago, amount: 20, paid: true)
+    @account.payments.create(payment_date: 2.days.ago, amount: 30, paid: true)
+    @account.payments.create(payment_date: 3.days.ago, amount: 50, paid: true)
+    @account.payments.create(payment_date: 2.days.ago, amount: 50, paid: true)
+    @account.payments.create(payment_date: 1.month.ago, amount: 50, paid: true)
+  end
 end

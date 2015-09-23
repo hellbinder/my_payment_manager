@@ -7,6 +7,12 @@ class Dashboard
   #Payments by group (fast food, loan, bank) 
   #Due payments
 
+  #current payment due
+  def due_payments
+  Payments.where(is_paid: false)
+  
+  end
+
   def payment_sum_for_user_by_year(year= Date.today.year)
     account_yearly_stat = @user.accounts.map do |account|
       payment_sum = account.payments.where('extract(year from payment_date) = ?', year)
@@ -20,7 +26,7 @@ class Dashboard
   end
 
   def payment_sum_for_user_by_month(month = Date.today.month, year = Date.today.year)
-    account_monthyl_stat = @user.accounts.map do |account|
+    account_monthly_stat = @user.accounts.map do |account|
       payment_sum = account.payments
       .where('extract(month from payment_date) = ? and extract(year from payment_date) = ?', month, year)
       .group_by_day_of_month(:payment_date).sum(:amount)
@@ -28,7 +34,7 @@ class Dashboard
       account_data_for(account, payment_sum)
     end
 
-    account_monthyl_stat.reject! { |e| e[:data].empty? }
+    account_monthly_stat.reject! { |e| e[:data].empty? }
   end
 
   private

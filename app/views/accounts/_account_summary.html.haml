@@ -3,7 +3,7 @@
   .col-lg-12
     %h3 Summary
     -unless @account.schedule.empty?
-      .alert.bg-info Note: This account has automatic payment creatio n set up ( #{@account.converted_schedule.to_s} )
+      .alert.bg-info Note: This account has automatic payment creation set up ( #{@account.converted_schedule.to_s} )
   .row
     %div{ class: ( can_modify_account ? "col-lg-6 col-md-6" : "col-lg-12 col-md-12" )}
       .panel.panel-primary#summary
@@ -12,8 +12,8 @@
             .col-xs-3
               %i.fa.fa-money.fa-3x
             .col-xs-9.text-right
-              %div Total Amount Paid
-              .h4=number_to_currency(@account.total_payment_amount)
+              %div Total amount for current month of #{Date.today.strftime("%B")}
+              #monthly_amount.h4=number_to_currency(@account.total_payment_amount_by_month)
         %a#view-history{href: "#"}
           .panel-footer
             %span.pull-left View Details
@@ -30,7 +30,7 @@
               .col-xs-9.text-right
                 -unless @account.schedule.empty?
                   %div Next Payment
-                  .h4=number_to_currency(@account.payment_amount) + " on #{@account.converted_schedule.next_occurrence.to_date.strftime('%m/%d/%Y') }"
+                  .h4=number_to_currency(@account.payment_amount) + " on #{@account.next_payment_date}"
           %a{href: new_account_payment_path(@account)}
             .panel-footer
               %span.pull-left Make a payment
@@ -39,7 +39,7 @@
               .clearfix
 .row
   .col-lg-12
-    =column_chart(@account.payments.group_by_month(:payment_date, format: "%F").sum(:amount),
+    =column_chart(@account.paid_payments.group_by_month(:payment_date, format: "%D").sum(:amount),
     library: { tooltip: { pointFormat: 'Amount: <b>${point.y:,.2f}</b>'},
     title: { text: 'Monthly Summary',
              align: 'left'  } })

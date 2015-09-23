@@ -1,6 +1,8 @@
 class Account < ActiveRecord::Base
   include IceCube
 
+  
+
   serialize :schedule, Hash
 
   validates_presence_of :name
@@ -32,6 +34,13 @@ class Account < ActiveRecord::Base
 
   def total_payment_amount
    payments.sum(:amount)
+  end
+
+  def total_payment_amount_by_month
+    payments
+    .where('extract(month from payment_date) = ? and extract(year from payment_date) = ?', Date.today.month, Date.today.year)
+    .where(paid: true)
+    .sum(:amount)
   end
   
   def add_owner(user)
@@ -73,6 +82,10 @@ class Account < ActiveRecord::Base
 
   def paid_payments
     payments.where( paid: true )
+  end
+
+  def next_payment_date
+    converted_schedule.next_occurrence.to_date.strftime('%m/%d/%Y')
   end
 
   private

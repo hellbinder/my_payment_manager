@@ -35,8 +35,8 @@ describe "Account Pages" do
   describe "show" do
     context "when authorized" do
       before do
-        @payment = FactoryGirl.create :payment
-        @paid_payment = FactoryGirl.create :paid_payment
+        @payment = FactoryGirl.create :payment, amount: 500
+        @paid_payment = FactoryGirl.create :paid_payment, amount: 300, payment_date: Date.today
         @account = FactoryGirl.create :account
         @account.add_owner(user)
         @account.payments << @paid_payment
@@ -47,6 +47,8 @@ describe "Account Pages" do
       it { is_expected.to have_selector "h2",text: @account.name}
       it { is_expected.to have_selector "#payments" }
       it { is_expected.to have_link "Back", accounts_path }
+      it { is_expected.to have_text "Total amount for current month" }
+      it { is_expected.to have_selector "#monthly_amount", text: "300"}
 
       it "only shows history of paid payments" do
         click_link "View Details"
@@ -76,6 +78,9 @@ describe "Account Pages" do
         @recurring_account = FactoryGirl.create :recurring_account
         @recurring_account.add_owner(user)
         visit account_path @recurring_account
+      end
+      after do
+        Timecop.return
       end
       it { is_expected.to have_text "This account has automatic payment creation set up" }
       it "shows 1/15/2015 as the next payment with $450 when current date is 01/13/2015" do
@@ -109,7 +114,7 @@ describe "Account Pages" do
 
       click_button "Create"
 
-      expect(page).to have_error_message "There was an error creating the account" 
+      expect(page).to have_error_message "Error creating an account"
     end
   end
 
@@ -148,7 +153,7 @@ describe "Account Pages" do
       it { is_expected.to have_field("Name", with: "Account1" )}
       it { is_expected.to have_field("Description", with: "Some description" )}
       it { is_expected.to have_field("Homepage", with: "http://www.google.com" )}
-      it { is_expected.to have_field("Payment Amount", with: "450" )}
+      it { is_expected.to have_field("Payment amount", with: "450.00" )} #didn't work because it's case sensitive (had Payment Amount)
       it { is_expected.to have_select("Schedule", text: "Monthly on the 1st day of the month*" )}
       it "should save the updated account and go back to the account page" do
         fill_in "Name", with: "Account2"
