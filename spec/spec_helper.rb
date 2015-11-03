@@ -20,9 +20,10 @@ RSpec.configure do |config|
   
   config.include ValidUserHelper, type: :controller
   config.include ValidUserRequestHelper, type: :request
+  config.include FeatureHelper, type: :request 
   config.include WaitForAjax, type: :feature
-  config.include Devise::TestHelpers, :type => :controller
-  config.include Devise::TestHelpers, :type => :view
+  config.include Devise::TestHelpers, type: :controller
+  config.include Devise::TestHelpers, type: :view
   config.include Rails.application.routes.url_helpers
   # ## Mock Framework
   #

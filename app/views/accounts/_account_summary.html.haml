@@ -39,7 +39,7 @@
               .clearfix
 .row
   .col-lg-12
-    =column_chart(@account.paid_payments.group_by_month(:payment_date, format: "%D").sum(:amount),
+    =column_chart(@account.paid_payments.group_by_month(:payment_date, format: "%D", last: 12).sum(:amount),
     library: { tooltip: { pointFormat: 'Amount: <b>${point.y:,.2f}</b>'},
     title: { text: 'Monthly Summary',
              align: 'left'  } })

@@ -4,13 +4,12 @@ include NotesHelper
 
 describe "Account Pages" do
   subject { page }
-  let(:user) { FactoryGirl.create :user }
+  let(:user) { FactoryGirl.create :user, name: "Person 1" }
   before { sign_in user }
 
   context "index page" do
     before :each do
       create_account_and_roles
-
       visit accounts_path
     end
 
@@ -185,7 +184,6 @@ describe "Account Pages" do
 
   describe "account authorization" do
     before { create_account_and_roles }
-
     describe "user visits his owned account" do
       before { visit account_path @owner_account }
       it "should have the button to delete" do 
@@ -214,13 +212,39 @@ describe "Account Pages" do
        it { is_expected.not_to have_link "Edit", edit_account_path(@owner_account) }
     end
 
-    describe "edit account authorization", js: true do
+    describe "account authorization", js: true do
       #TODO: Finish testing authorization here
-      before do
+      before(:each) do
         visit edit_account_path @owner_account
         find("li a[href='#security']").click
       end
       it { is_expected.to have_text "User" }
+
+      #Custome matchers are not working. I wanted to create a method 'select_by_text and select_by_value so I don't have to insert all that crap text'
+      #TODO: Check how to add custom matchers to capybara. Right now in FeatureHelper module and added to rspec config.
+      context "edit authorization", js: true do
+        it "adds a user to the member section successfully" do
+          find('#accounts_user_user_id').find(:xpath, "option[normalize-space(text())='Person 2']").select_option
+          find('#accounts_user_role').find(:xpath, "option[normalize-space(text())='Member']").select_option
+          click_button "Add"
+          expect(page).to have_css "ul#members li", text: "Person 2"
+        end
+
+        it "adds a user to the viewer section successfully" do
+          find('#accounts_user_user_id').find(:xpath, "option[normalize-space(text())='Person 2']").select_option
+          find('#accounts_user_role').find(:xpath, "option[normalize-space(text())='Viewer']").select_option
+          click_button "Add"
+          expect(page).to have_css "ul#viewers li", text: "Person 2"
+        end
+
+        it "shows error when added as member when user already in a role" do
+          find('#accounts_user_user_id').find(:xpath, "option[normalize-space(text())='Person 1']").select_option
+          find('#accounts_user_role').find(:xpath, "option[normalize-space(text())='Member']").select_option
+          click_button "Add"
+
+          expect(page).to have_error_message "User already exists for the current account"
+        end      
+      end
     end
   end
 
@@ -260,7 +284,7 @@ def create_account_and_roles
   @owner_account.add_owner user
 
   #not being owner
-  other_user = FactoryGirl.create :user
+  other_user = FactoryGirl.create :user, name: "Person 2"
   @user_member_account = FactoryGirl.create :account, name: "User member account"
 
   #add users to account roles
@@ -271,6 +295,7 @@ def create_account_and_roles
   @other_user_account = FactoryGirl.create :account, name: "Other user account"
   @other_user_account.add_owner other_user
 end
+
 =begin
   describe "delete from index page", js:true do
     before do

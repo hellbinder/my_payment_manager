@@ -27,6 +27,7 @@ gem 'hightop'
 gem 'active_median'
 gem 'ice_cube'
 gem 'recurring_select'
+gem 'whenever', :require => false
 
 group :development do
   gem 'better_errors'

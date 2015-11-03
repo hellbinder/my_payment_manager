@@ -13,5 +13,4 @@ namespace :payments do
       end
     end
   end
-
 end
