@@ -53,6 +53,7 @@ describe "Account Pages" do
         click_link "View Details"
         expect(page).to have_selector "td", text: @paid_payment.payment_date.strftime("%D")
         expect(page).to have_selector "td", text: @paid_payment.amount
+        save_and_open_page
         #Unpaid should not show
         expect(page).to_not have_selector "td", text: @payment.payment_date.strftime("%D")
         expect(page).to_not have_selector "td", text: @payment.amount

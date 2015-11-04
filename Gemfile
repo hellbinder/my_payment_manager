@@ -47,7 +47,6 @@ end
 group :development, :test do
   gem 'rspec-rails'
   gem 'rspec-its', '~> 1.0.0.pre'
-  gem 'factory_girl_rails'
   gem 'timecop'
 end
 
@@ -58,6 +57,7 @@ group :test do
   gem 'capybara'
   gem 'selenium-webdriver'
   gem 'database_cleaner'
+  gem 'factory_girl_rails'
 end
 
 
